@@ -34,7 +34,11 @@ namespace Game2.Mining
                 t.Start();
             }
         }
-
+        /*Husk at count tælles ned hver gang en tråd får adgang. Så når den er 0
+        er der tre tråde inde og nye tråde må vente. Når en tråde forlader
+        tælles count op. Release(3) kan sørge for at alle kommer ud, dvs.
+        tømme natklubben. Release(), tæller blot en op sv.t. en enkelt tråd der
+        forlader */
         public void RunMe()
         {
             bool goldInMine1 = true;
