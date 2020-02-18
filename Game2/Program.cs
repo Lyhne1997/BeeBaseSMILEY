@@ -16,6 +16,7 @@ namespace Game2
         {
             using (var game = new GameWorld())
                 game.Run();
+            
         }
     }
 #endif

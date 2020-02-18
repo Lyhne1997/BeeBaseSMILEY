@@ -8,12 +8,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Game2
 {
     public abstract class GameObject
     {
         protected Texture2D sprite;
+
+
 
         protected Vector2 position;
 
@@ -22,7 +25,10 @@ namespace Game2
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, 1, SpriteEffects.None, 1);
+          
         }
         public abstract void LoadContent(ContentManager content);
+
+        public abstract void Update(GameTime gameTime);
     }
 }

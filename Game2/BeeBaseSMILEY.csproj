@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="GameWorld.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="Mining\Nektar.cs" />
+    <Compile Include="MyTask.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,6 +55,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="XNAGameConsole">
+      <HintPath>..\..\..\..\..\Downloads\Browser download\XNAGameConsole.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
