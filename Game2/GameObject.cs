@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Game2
 {
@@ -16,7 +17,7 @@ namespace Game2
     {
         protected Texture2D sprite;
 
-
+        public Thread internalThread;
 
         protected Vector2 position;
 

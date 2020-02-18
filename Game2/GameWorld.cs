@@ -45,53 +45,53 @@ namespace Game2
         private static Random random;
 
 
-        static void RunMe()
-        {
-            bool goldInMine1 = true;
-            for (int f = 0; f < 2; f++)
-            {
-                Thread t = new Thread(RunMe);
-                t.Start();
-            }
-            int i = 100;
-            int gold = 0;
+        //static void RunMe()
+        //{
+        //    bool goldInMine1 = true;
+        //    for (int f = 0; f < 2; f++)
+        //    {
+        //        Thread t = new Thread(RunMe);
+        //        t.Start();
+        //    }
+        //    int i = 100;
+        //    int gold = 0;
 
-            while (goldInMine1 == true)
-            {
-                if (m.WaitOne(50))
-                {
-                    if (stateS == 5)
-                    {
-                        stateS++;
-                        Trace.Assert(stateS == 6, "Race Condition in Loop" + i);
-                    }
-                    stateS = 5;
-                    i++;
-                }
-                else
-                {
+        //    while (goldInMine1 == true)
+        //    {
+        //        if (m.WaitOne(50))
+        //        {
+        //            if (stateS == 5)
+        //            {
+        //                stateS++;
+        //                Trace.Assert(stateS == 6, "Race Condition in Loop" + i);
+        //            }
+        //            stateS = 5;
+        //            i++;
+        //        }
+        //        else
+        //        {
 
-                    Debug.WriteLine($"You mined 1 Gold, remaining Gold:{i}");
-                    i--;
-                    gold++;
-                    if (i <= 0)
-                    {
-                        Debug.WriteLine("The mine is out of gold!");
-                        Debug.WriteLine($"You have mined a total of {gold} Gold");
-                    }
-                    if (i == 0)
-                    {
-                        goldInMine1 = false;
-                        Debug.WriteLine("Press any key to refill the mine");
-                        //Debug.ReadKey();
-                        i = 100;
-                        goldInMine1 = true;
-                    }
-                }
+        //            Debug.WriteLine($"You mined 1 Gold, remaining Gold:{i}");
+        //            i--;
+        //            gold++;
+        //            if (i <= 0)
+        //            {
+        //                Debug.WriteLine("The mine is out of gold!");
+        //                Debug.WriteLine($"You have mined a total of {gold} Gold");
+        //            }
+        //            if (i == 0)
+        //            {
+        //                goldInMine1 = false;
+        //                Debug.WriteLine("Press any key to refill the mine");
+        //                //Debug.ReadKey();
+        //                i = 100;
+        //                goldInMine1 = true;
+        //            }
+        //        }
 
-            }
+        //    }
 
-        }
+        //}
 
 
 
@@ -112,7 +112,9 @@ namespace Game2
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            nek.RunMe();
             nek.MiningStart();
+            nek.StartShit();
             base.Initialize();
             position = new Vector2(graphics.GraphicsDevice.Viewport.
                  Width / 2,
