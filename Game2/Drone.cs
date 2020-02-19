@@ -76,7 +76,7 @@ namespace Game2
                 sprites[i] = content.Load<Texture2D>(i + 1 + ("bee"));
             }
 
-            fps = 3;
+            fps = 8;
 
             sprite = sprites[0];
 

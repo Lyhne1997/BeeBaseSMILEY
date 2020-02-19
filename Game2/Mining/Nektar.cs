@@ -15,6 +15,9 @@ namespace Game2.Mining
     {
         static Semaphore MySemaphore = new Semaphore(0, 3);     // Max 3
 
+        bool nektarmine = true;
+
+
         Drone drone = new Drone();
 
         public string nektarInfo = "";
@@ -47,11 +50,14 @@ namespace Game2.Mining
         tælles count op. Release(3) kan sørge for at alle kommer ud, dvs.
         tømme natklubben. Release(), tæller blot en op sv.t. en enkelt tråd der
         forlader */
+
         public void RunMe()
         {
-            bool nektarmine = true;
             int remainingNektarInMine = 100;
             int nektar = 0;
+
+            /// nektarmine == true Should be changed since it stops the thread after the mine
+            /// has run out of resources
             while (nektarmine == true)
             {
 
@@ -113,7 +119,7 @@ namespace Game2.Mining
                     Debug.WriteLine("Press any key to refill the mine");
                     Thread.Sleep(1000);
                     remainingNektarInMine = 100;
-                    nektarmine = true;
+                    nektarmine = false;
                 }
 
                 Thread.Sleep(50);
@@ -152,7 +158,7 @@ namespace Game2.Mining
 
             //MySemaphore.Release();
 
-            while (true)
+            while (nektarmine == true)
             {
 
 
