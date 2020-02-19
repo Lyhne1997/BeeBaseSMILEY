@@ -45,58 +45,6 @@ namespace Game2
         private static Random random;
 
 
-        //static void RunMe()
-        //{
-        //    bool goldInMine1 = true;
-        //    for (int f = 0; f < 2; f++)
-        //    {
-        //        Thread t = new Thread(RunMe);
-        //        t.Start();
-        //    }
-        //    int i = 100;
-        //    int gold = 0;
-
-        //    while (goldInMine1 == true)
-        //    {
-        //        if (m.WaitOne(50))
-        //        {
-        //            if (stateS == 5)
-        //            {
-        //                stateS++;
-        //                Trace.Assert(stateS == 6, "Race Condition in Loop" + i);
-        //            }
-        //            stateS = 5;
-        //            i++;
-        //        }
-        //        else
-        //        {
-
-        //            Debug.WriteLine($"You mined 1 Gold, remaining Gold:{i}");
-        //            i--;
-        //            gold++;
-        //            if (i <= 0)
-        //            {
-        //                Debug.WriteLine("The mine is out of gold!");
-        //                Debug.WriteLine($"You have mined a total of {gold} Gold");
-        //            }
-        //            if (i == 0)
-        //            {
-        //                goldInMine1 = false;
-        //                Debug.WriteLine("Press any key to refill the mine");
-        //                //Debug.ReadKey();
-        //                i = 100;
-        //                goldInMine1 = true;
-        //            }
-        //        }
-
-        //    }
-
-        //}
-
-
-
-
-
         public GameWorld()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -112,14 +60,11 @@ namespace Game2
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            nek.RunMe();
-            nek.MiningStart();
+            //nek.RunMe();
             nek.StartShit();
+            nek.MiningStart();
             base.Initialize();
-            position = new Vector2(graphics.GraphicsDevice.Viewport.
-                 Width / 2,
-                              graphics.GraphicsDevice.Viewport.
-                              Height / 2);
+
         }
 
         /// <summary>
@@ -136,7 +81,7 @@ namespace Game2
             text1 = Content.Load<SpriteFont>("text");
 
             // TODO: use this.Content to load your game content here
-            gameObjects.Add(new Player());
+            gameObjects.Add(new Drone(new Vector2(0, 0)));
             //gameObjects.Add(new Mine(new Vector2(200, 100));
 
             foreach (GameObject gameObject in gameObjects)
@@ -154,6 +99,9 @@ namespace Game2
             // TODO: Unload any non ContentManager content here
         }
 
+
+
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -161,9 +109,11 @@ namespace Game2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
             MouseState state = Mouse.GetState();
 
             // Update our sprites position to the current cursor location
@@ -173,7 +123,21 @@ namespace Game2
             // Check if Right Mouse Button pressed, if so, exit
             if (state.RightButton == ButtonState.Pressed)
                 Exit();
-            // TODO: Add your update logic here
+
+
+            // Test to see if mouse reacts when hitting a certain point on the screen
+            if (state.X >= 100 && state.X <= 120)
+            {
+                Debug.WriteLine("hit");
+            }
+
+
+            //// TODO: Add your update logic here
+
+            foreach (GameObject gameObject in gameObjects)
+            {
+                gameObject.Update(gameTime);
+            }
 
 
             //Debug.WriteLine(position.X.ToString() +
@@ -196,13 +160,16 @@ namespace Game2
             spriteBatch.Begin();
             spriteBatch.Draw(texture, position, origin: new Vector2(64, 64));
 
+          
+
+
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.Draw(spriteBatch);
             }
 
             spriteBatch.DrawString(text1, nek.nektarInfo,
-                                          new Vector2(100, graphics.GraphicsDevice.Viewport.Height / 2),
+                                          new Vector2(50, graphics.GraphicsDevice.Viewport.Height / 2),
                                           Color.White,
                                           0,
                                           Vector2.Zero,
@@ -211,8 +178,8 @@ namespace Game2
                                           1f);
 
 
-            spriteBatch.DrawString(text1, nek.nektarInfo2,
-                                        new Vector2(100, graphics.GraphicsDevice.Viewport.Height / 2 + 130),
+            spriteBatch.DrawString(text1, nek.waitingBees,
+                                        new Vector2(100, graphics.GraphicsDevice.Viewport.Height / 2 + 80),
                                         Color.White,
                                         0,
                                         Vector2.Zero,
@@ -220,8 +187,8 @@ namespace Game2
                                         SpriteEffects.None,
                                         1f);
 
-            spriteBatch.DrawString(text1, nek.nektarInfo3,
-                                        new Vector2(100, graphics.GraphicsDevice.Viewport.Height / 2 + 160),
+            spriteBatch.DrawString(text1, nek.enteringBees,
+                                        new Vector2(100, graphics.GraphicsDevice.Viewport.Height / 2 + 110),
                                         Color.White,
                                         0,
                                         Vector2.Zero,
@@ -229,8 +196,8 @@ namespace Game2
                                         SpriteEffects.None,
                                         1f);
 
-            spriteBatch.DrawString(text1, nek.nektarInfo4,
-                                        new Vector2(100, graphics.GraphicsDevice.Viewport.Height / 2 + 190),
+            spriteBatch.DrawString(text1, nek.leavingBees,
+                                        new Vector2(100, graphics.GraphicsDevice.Viewport.Height / 2 + 140),
                                         Color.White,
                                         0,
                                         Vector2.Zero,
@@ -238,7 +205,25 @@ namespace Game2
                                         SpriteEffects.None,
                                         1f);
 
+            // Mined nektar
+            spriteBatch.DrawString(text1, nek.minedNektar,
+                                    new Vector2(100, graphics.GraphicsDevice.Viewport.Height / 2 + 170),
+                                    Color.White,
+                                    0,
+                                    Vector2.Zero,
+                                    1,
+                                    SpriteEffects.None,
+                                    1f);
 
+            // Remaining nektar
+            spriteBatch.DrawString(text1, nek.remainingNektar,
+                                    new Vector2(100, graphics.GraphicsDevice.Viewport.Height / 2 + 200),
+                                    Color.White,
+                                    0,
+                                    Vector2.Zero,
+                                    1,
+                                    SpriteEffects.None,
+                                    1f);
             spriteBatch.End();
 
             base.Draw(gameTime);

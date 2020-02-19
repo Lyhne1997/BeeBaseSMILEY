@@ -19,21 +19,6 @@ namespace Game2
 
 
 
-        /* bool kør = true;
-          while(kør == true)
-          {
-          MyTask myTask = new MyTask("Hello World");
-          myTask.Start();
-          for(int i = 0; i < 100; i++)
-          {
-              MyTask myTask2 = new MyTask("Hej");
-              myTask2.isBackground = true;
-              myTask2.Start();
-          }
-              kør = false;
-          }*/
-
-
         public override void LoadContent(ContentManager content)
         {
             sprite = content.Load<Texture2D>("Bee");

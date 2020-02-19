@@ -17,9 +17,15 @@ namespace Game2.Mining
         static Semaphore MySemaphore = new Semaphore(0, 3);     // Max 3
 
         public string nektarInfo = "";
-        public string nektarInfo2 = "";
-        public string nektarInfo3 = "";
-        public string nektarInfo4 = "";
+        public string waitingBees = "";
+        public string enteringBees = "";
+        public string leavingBees = "";
+
+        public string minedNektar = "";
+        public string remainingNektar = "";
+
+        public bool beesIsEntered = true;
+
 
         static readonly object lockObject = new object();
         static Mutex m = new Mutex();
@@ -30,7 +36,7 @@ namespace Game2.Mining
             for (int i = 0; i < 2; i++)
             {
                 Thread t = new Thread(RunMe);
-                //t.IsBackground = true;
+                t.IsBackground = true;
                 t.Start();
             }
         }
@@ -41,31 +47,52 @@ namespace Game2.Mining
         forlader */
         public void RunMe()
         {
-            bool goldInMine1 = true;
-            int i = 100;
-            int gold = 0;
-            while (goldInMine1 == true)
+            bool nektarmine = true;
+            int remainingNektarInMine = 100;
+            int nektar = 0;
+            while (nektarmine == true)
             {
-
-
-                Debug.WriteLine($"You mined 1 Gold, remaining Gold:{i}");
-                i--;
-                gold++;
-                if (i <= 0)
+                if (enteringBees == "Bob-bi(1) kommer ind")
                 {
-                    Debug.WriteLine("The mine is out of gold!");
-                    Debug.WriteLine($"You have mined a total of {gold} Gold");
+                    remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
+
+                    // Debug
+                    Debug.WriteLine($"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}");
+
+                    remainingNektarInMine--;
+                    nektar++;
+                    minedNektar = $"You have mined a total of {nektar} Nektar";
+
+                    // Debug
+                    Debug.WriteLine($"You have mined a total of {nektar} Nektar");
                 }
-                if (i == 0)
+
+
+                //remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
+
+                //// Debug
+                //Debug.WriteLine($"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}");
+                //remainingNektarInMine--;
+                //nektar++;
+
+
+                if (remainingNektarInMine <= 0)
                 {
-                    goldInMine1 = false;
+                    Debug.WriteLine("The mine is out of Nektar!");
+
+
+
+                }
+                if (remainingNektarInMine == 0)
+                {
+
                     Debug.WriteLine("Press any key to refill the mine");
-                    Thread.Sleep(10000);
-                    i = 100;
-                    goldInMine1 = true;
+                    Thread.Sleep(1000);
+                    remainingNektarInMine = 100;
+                    nektarmine = true;
                 }
 
-
+                Thread.Sleep(50);
             }
         }
 
@@ -73,7 +100,7 @@ namespace Game2.Mining
 
         public void MiningStart()
         {
-         
+
 
             for (int i = 1; i <= 5; i++)
             {
@@ -101,81 +128,155 @@ namespace Game2.Mining
 
             //MySemaphore.Release();
 
+            while (true)
+            {
+                if ((int)id == 1)
+                {
+                    waitingBees = "Bob-bi 1 venter uden for";
+                }
+                if ((int)id == 2)
+                {
+                    waitingBees = "Claus 2 venter uden for";
+                }
+                if ((int)id == 3)
+                {
+                    waitingBees = "TonnyBonde 3 venter uden for";
+                }
+                if ((int)id == 4)
+                {
+                    waitingBees = "Karsten 4 venter uden for";
+                }
+                if ((int)id == 5)
+                {
+                    waitingBees = "Lonni 5 venter uden for";
+                }
+                MySemaphore.WaitOne();  // Only three bees in here!
+                                        //Debug.WriteLine(id.ToString() + " Enters the Nektar Mine");
+
+                if ((int)id == 1)
+                {
+                    enteringBees = "Bob-bi(1) kommer ind";
+                }
+                else if ((int)id == 2)
+                {
+                    enteringBees = "Claus(2) kommer ind";
+                }
+                else if ((int)id == 3)
+                {
+                    enteringBees = "TonnyBonde(3) kommer ind";
+                }
+                else if ((int)id == 4)
+                {
+                    enteringBees = "Karsten(4) kommer ind";
+                }
+                else if ((int)id == 5)
+                {
+                    enteringBees = "Lonni(5) kommer ind";
+                }
+
+                Thread.Sleep(1000 * (int)id);
+                //Debug.WriteLine(id.ToString() + " is leaving");
+
+                if ((int)id == 1)
+                {
+                    leavingBees = "Bob-bi(1) forlader";
+                }
+                else if ((int)id == 2)
+                {
+                    leavingBees = "Claus(2) forlader";
+                }
+                else if ((int)id == 3)
+                {
+                    leavingBees = "TonnyBonde(3) forlader";
+                }
+                else if ((int)id == 4)
+                {
+                    leavingBees = "Karsten(4) forlader";
+                }
+                else if ((int)id == 5)
+                {
+                    leavingBees = "Lonni(5) forlader";
+                }
+
+                MySemaphore.Release();
+            }
 
 
 
-            //Debug.WriteLine(id + " Starts and waits outside to enter");
-            if ((int)id == 1)
-            {
-                Debug.WriteLine("1 venter uden for");
-            }
-            if ((int)id == 2)
-            {
-                Debug.WriteLine("2 venter uden for");
-            }
-            if ((int)id == 3)
-            {
-                Debug.WriteLine("3 venter uden for");
-            }
-            if ((int)id == 4)
-            {
-                Debug.WriteLine("4 venter uden for");
-            }
-            if ((int)id == 5)
-            {
-                Debug.WriteLine("5 venter uden for");
-            }
-            MySemaphore.WaitOne();  // Only three bees in here!
-                                    //Debug.WriteLine(id.ToString() + " Enters the Nektar Mine");
+
+            #region Debug
+            //if ((int)id == 1)
+            //{
+            //    Debug.WriteLine("Bob-bi(1) venter uden for");
+            //}
+            //if ((int)id == 2)
+            //{
+            //    Debug.WriteLine("Claus(2) venter uden for");
+            //}
+            //if ((int)id == 3)
+            //{
+            //    Debug.WriteLine("TonnyBonde(3) venter uden for");
+            //}
+            //if ((int)id == 4)
+            //{
+            //    Debug.WriteLine("Karsten(4) venter uden for");
+            //}
+            //if ((int)id == 5)
+            //{
+            //    Debug.WriteLine("Søren(5) venter uden for");
+            //}
+            //MySemaphore.WaitOne();  // Only three bees in here!
+            //                        //Debug.WriteLine(id.ToString() + " Enters the Nektar Mine");
 
 
-            if ((int)id == 1)
-            {
-                Debug.WriteLine("1 kommer ind");
-            }
-            if ((int)id == 2)
-            {
-                Debug.WriteLine("2 kommer ind");
-            }
-            if ((int)id == 3)
-            {
-                Debug.WriteLine("3 kommer ind");
-            }
-            if ((int)id == 4)
-            {
-                Debug.WriteLine("4 kommer ind");
-            }
-            if ((int)id == 5)
-            {
-                Debug.WriteLine("5 kommer ind");
-            }
+            //if ((int)id == 1)
+            //{
+            //    Debug.WriteLine("Bob-bi(1) kommer ind");
+            //}
+            //if ((int)id == 2)
+            //{
+            //    Debug.WriteLine("Claus(2) kommer ind");
+            //}
+            //if ((int)id == 3)
+            //{
+            //    Debug.WriteLine("TonnyBonde(3) kommer ind");
+            //}
+            //if ((int)id == 4)
+            //{
+            //    Debug.WriteLine("Karsten(4) kommer ind");
+            //}
+            //if ((int)id == 5)
+            //{
+            //    Debug.WriteLine("Søren(5) kommer ind");
+            //}
 
-            Thread.Sleep(1000 * (int)id);
-            //Debug.WriteLine(id.ToString() + " is leaving");
+            //Thread.Sleep(1000 * (int)id);
+            ////Debug.WriteLine(id.ToString() + " is leaving");
 
-            if ((int)id == 1)
-            {
-                Debug.WriteLine("1 forlader");
-            }
-            if ((int)id == 2)
-            {
-                Debug.WriteLine("2 forlader");
-            }
-            if ((int)id == 3)
-            {
-                Debug.WriteLine("3 forlader");
-            }
-            if ((int)id == 4)
-            {
-                Debug.WriteLine("4 forlader");
-            }
-            if ((int)id == 5)
-            {
-                Debug.WriteLine("5 forlader");
-            }
+            //if ((int)id == 1)
+            //{
+            //    Debug.WriteLine("Bob-bi(1) forlader");
+            //}
+            //if ((int)id == 2)
+            //{
+            //    Debug.WriteLine("Claus(2) forlader");
+            //}
+            //if ((int)id == 3)
+            //{
+            //    Debug.WriteLine("TonnyBonde(3) forlader");
+            //}
+            //if ((int)id == 4)
+            //{
+            //    Debug.WriteLine("Karsten(4) forlader");
+            //}
+            //if ((int)id == 5)
+            //{
+            //    Debug.WriteLine("Søren(5) forlader");
+            //}
 
-            MySemaphore.Release();
+            //MySemaphore.Release();
 
+            #endregion Debug
 
         }
 

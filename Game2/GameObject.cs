@@ -21,6 +21,7 @@ namespace Game2
 
         protected Vector2 position;
 
+
         protected Vector2 origin;
 
         public void Draw(SpriteBatch spriteBatch)
