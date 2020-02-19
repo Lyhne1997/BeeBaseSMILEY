@@ -102,6 +102,9 @@ namespace Game2.Mining
 
                 if (remainingNektarInMine <= 0)
                 {
+                    // Does not work......
+                    //GameWorld.Instance.flowerIsAlive = false;
+
                     Debug.WriteLine("The mine is out of Nektar!");
                 }
                 if (remainingNektarInMine == 0)

@@ -20,10 +20,12 @@ namespace Game2
         //protected Vector2 flowerB;
         //protected Vector2 flowerC;
 
-
-
-
+        private int currentIndex;
+        //
+        private float timeElapsed;
+        protected Texture2D[] sprites;
         protected Texture2D sprite;
+        protected int fps;
 
         //Når bien først spawner og venter på input fra spilleren.
         protected bool isWaitingForInput = true;
@@ -59,8 +61,21 @@ namespace Game2
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, 1, SpriteEffects.None, 1);
-          
+
         }
+        protected void Animation(GameTime gameTime)
+        {
+            timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            currentIndex = (int)(timeElapsed * fps);
+            sprite = sprites[currentIndex];
+
+            if (currentIndex >= sprites.Length - 1)
+            {
+                timeElapsed = 0;
+                currentIndex = 0;
+            }
+        }
+
         public abstract void LoadContent(ContentManager content);
 
         public abstract void Update(GameTime gameTime);

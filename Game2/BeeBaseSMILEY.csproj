@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Base.cs" />
     <Compile Include="Drone.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="GameObject.cs" />
