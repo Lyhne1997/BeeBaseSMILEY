@@ -13,8 +13,9 @@ namespace Game2.Mining
 {
     public class Nektar : GameObject
     {
-
         static Semaphore MySemaphore = new Semaphore(0, 3);     // Max 3
+
+        Drone drone = new Drone();
 
         public string nektarInfo = "";
         public string waitingBees = "";
@@ -29,6 +30,7 @@ namespace Game2.Mining
 
         static readonly object lockObject = new object();
         static Mutex m = new Mutex();
+        private int state;
 
         //private static Random random;
         public void StartShit()
@@ -52,6 +54,24 @@ namespace Game2.Mining
             int nektar = 0;
             while (nektarmine == true)
             {
+
+
+                //if (m.WaitOne(500))
+                //{
+                //    if (state == 5)
+                //    {
+                //        state++;
+                //        Trace.Assert(state == 6, "Race Condition in Loop" + nektar);
+                //    }
+                //    state = 5;
+                //    nektar++;
+                //}
+                //else
+                //{
+
+
+                // if bees enter == true then > mine
+
                 if (enteringBees == "Bob-bi(1) kommer ind")
                 {
                     remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
@@ -67,6 +87,10 @@ namespace Game2.Mining
                     Debug.WriteLine($"You have mined a total of {nektar} Nektar");
                 }
 
+                //}
+
+
+
 
                 //remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
 
@@ -79,9 +103,6 @@ namespace Game2.Mining
                 if (remainingNektarInMine <= 0)
                 {
                     Debug.WriteLine("The mine is out of Nektar!");
-
-
-
                 }
                 if (remainingNektarInMine == 0)
                 {
@@ -130,9 +151,12 @@ namespace Game2.Mining
 
             while (true)
             {
+
+
                 if ((int)id == 1)
                 {
                     waitingBees = "Bob-bi 1 venter uden for";
+                    Thread.Sleep(100);
                 }
                 if ((int)id == 2)
                 {

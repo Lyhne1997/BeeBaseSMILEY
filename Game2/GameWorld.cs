@@ -27,6 +27,7 @@ namespace Game2
 
 
         Nektar nek = new Nektar();
+        private Texture2D background;
 
         public List<GameObject> gameObjects = new List<GameObject>();
 
@@ -91,6 +92,7 @@ namespace Game2
 
             text1 = Content.Load<SpriteFont>("text");
 
+            background = Content.Load<Texture2D>("Background");
 
             // Sound
             backgroundSound = Content.Load<Song>("Happy_Dreams.Background");
@@ -99,7 +101,7 @@ namespace Game2
             MediaPlayer.IsRepeating = true;
 
             // TODO: use this.Content to load your game content here
-            gameObjects.Add(new Drone(new Vector2(0, 0)));
+            gameObjects.Add(new Drone());
             //gameObjects.Add(new Mine(new Vector2(200, 100));
 
             foreach (GameObject gameObject in gameObjects)
@@ -132,22 +134,22 @@ namespace Game2
             {
                 Exit();
             }
-            MouseState state = Mouse.GetState();
+            //MouseState state = Mouse.GetState();
 
-            // Update our sprites position to the current cursor location
-            position.X = state.X;
-            position.Y = state.Y;
+            //// Update our sprites position to the current cursor location
+            //position.X = state.X;
+            //position.Y = state.Y;
 
-            // Check if Right Mouse Button pressed, if so, exit
-            if (state.RightButton == ButtonState.Pressed)
-                Exit();
+            //// Check if Right Mouse Button pressed, if so, exit
+            //if (state.RightButton == ButtonState.Pressed)
+            //    Exit();
 
 
-            // Test to see if mouse reacts when hitting a certain point on the screen
-            if (state.X >= 100 && state.X <= 120)
-            {
-                Debug.WriteLine("hit");
-            }
+            //// Test to see if mouse reacts when hitting a certain point on the screen
+            //if (state.X >= 100 && state.X <= 120)
+            //{
+            //    Debug.WriteLine("hit");
+            //}
 
 
             //// TODO: Add your update logic here
@@ -174,11 +176,11 @@ namespace Game2
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+      
             spriteBatch.Begin();
             spriteBatch.Draw(texture, position, origin: new Vector2(64, 64));
 
-          
+            spriteBatch.Draw(background, position, origin: new Vector2(0, 0));
 
 
             foreach (GameObject gameObject in gameObjects)

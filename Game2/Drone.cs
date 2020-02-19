@@ -14,6 +14,7 @@ namespace Game2
 {
     class Drone : GameObject
     {
+        //Vectorer til de forskellige assets.
         private Vector2 baseA;
         private Vector2 flowerA;
         private Vector2 flowerB;
@@ -24,7 +25,6 @@ namespace Game2
         private bool isMovingToBaseAFromFlowerA = false;
         private bool isMovingToBaseAFromFlowerB = false;
         private bool isMovingToBaseAFromFlowerC = false;
-        private bool isMovingToBaseA = false;
         //Når bien har fået input fra spilleren og får besked på at bevæge sig til en blomst for at hente Nectar.
         private bool isMovingToFlowerA = false;
         private bool isMovingToFlowerB = false;
@@ -36,37 +36,45 @@ namespace Game2
         //Når bien er kommet til basen med Nectar og skal aflevere Nectar.
         private bool isOffloadingNectar = false;
 
+        //Retningen som bien skal bevæge sig immod.
         private Vector2 direction;
+        //Roterer bien afhængigt af hvilken retning den har.
         protected float rotation;
+        //Afstanden fra bien og det mål som den skal hen til.
         private Vector2 distance;
 
-        public Drone(Vector2 position)
+        public Drone()
         {
-            this.position = position;
-            flowerA.X = 10;
-            flowerA.Y = 300;
-
-            flowerB.X = 650;
-            flowerB.Y = 300;
-
-            flowerC.X = 650;
-            flowerC.Y = 10;
-
-            baseA.X = 0;
-            baseA.Y = 0;
-
-            speed = 5f;
+            //Position på Bien.
+           
+            //Position på Basen.    
+            baseA.X = 50;
+            baseA.Y = 50;
+            //Position på Flower A.
+            flowerA.X = 140;
+            flowerA.Y = 530;
+            //Position på Flower B.
+            flowerB.X = 850;
+            flowerB.Y = 580;
+            //Position på Flower C.
+            flowerC.X = 820;
+            flowerC.Y = 70;
+            //Biernes hastighed.
+            speed = 20f;
         }
         public override void LoadContent(ContentManager content)
         {
+            //Loader vores sprite.
             sprite = content.Load<Texture2D>("Bee");
         }
         public override void Update(GameTime gameTime)
         {
+            //Updaterer movement for hver "gametick".
             DroneManagement(gameTime);
         }
         private void DroneManagement(GameTime gameTime)
         {
+            //Udregner afstanden fra bien til Flower "A" eller Basen afhængigt af hvilken den skal bevæge sig imod.
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
 
@@ -80,7 +88,9 @@ namespace Game2
                     distance.X = baseA.X - this.position.X;
                     distance.Y = baseA.Y - this.position.Y;
                 }
+                isWaitingForInput = false;
             }
+            ////Udregner afstanden fra bien til Flower "B" eller Basen afhængigt af hvilken den skal bevæge sig imod.
             if (Keyboard.GetState().IsKeyDown(Keys.B))
             {
 
@@ -94,7 +104,9 @@ namespace Game2
                     distance.X = baseA.X - this.position.X;
                     distance.Y = baseA.Y - this.position.Y;
                 }
+                isWaitingForInput = false;
             }
+            ////Udregner afstanden fra bien til Flower "C" eller Basen afhængigt af hvilken den skal bevæge sig imod.
             if (Keyboard.GetState().IsKeyDown(Keys.C))
             {
 
@@ -108,25 +120,15 @@ namespace Game2
                     distance.X = baseA.X - this.position.X;
                     distance.Y = baseA.Y - this.position.Y;
                 }
+                isWaitingForInput = false;
             }
-
+            //Udregner rotation på bien afhængigt af afstanden mellem bien og dets "target".
             rotation = (float)Math.Atan2(distance.X, -distance.Y);
+            //Udregner hvilket retning som bien skal bevæge sig imod.
             direction = new Vector2((float)Math.Cos(MathHelper.ToRadians(90) - rotation), -(float)Math.Sin(MathHelper.ToRadians(90) - rotation));
-            float positiveDistanceX = distance.X;
-            float positiveDistanceY = distance.Y;
 
-            if (distance.X < 0)
-            {
-                positiveDistanceX *= -1;
-                positiveDistanceY *= -1;
-            }
-
-            if (distance.Y < 0)
-            {
-                positiveDistanceX *= -1;
-                positiveDistanceY *= -1;
-            }
-            //Flower A
+            //Bestemmer hvilken position bien skal bevæge sig imod ved hjælp af booleans.
+            //Dette er mellem Basen og Flower "A".
             if (this.position.X <= baseA.X && this.position.Y <= baseA.Y)
             {
                 isMovingToBaseAFromFlowerA = false;
@@ -137,34 +139,39 @@ namespace Game2
                 isMovingToFlowerA = false;
                 isMovingToBaseAFromFlowerA = true;
             }
-            //Flower B
-            if (this.position.X <= baseA.X && this.position.Y <= baseA.Y)
+            //Bestemmer hvilken position bien skal bevæge sig imod ved hjælp af booleans.
+            //Dette er mellem Basen og Flower "B".
+            if (this.position.X <= baseA.X || this.position.Y <= baseA.Y)
             {
                 isMovingToBaseAFromFlowerB = false;
                 isMovingToFlowerB = true;
             }
-            if (this.position.X >= flowerB.X && this.position.Y >= flowerB.Y)
+            if (this.position.X >= flowerB.X || this.position.Y >= flowerB.Y)
             {
                 isMovingToFlowerB = false;
                 isMovingToBaseAFromFlowerB = true;
             }
-            //Flower C
-            if (this.position.X <= baseA.X && this.position.Y <= baseA.Y)
+            //Bestemmer hvilken position bien skal bevæge sig imod ved hjælp af booleans.
+            //Dette er mellem Basen og Flower "C".
+            if (this.position.X <= baseA.X || this.position.Y <= baseA.Y)
             {
                 isMovingToBaseAFromFlowerC = false;
                 isMovingToFlowerC = true;
             }
-            if (this.position.X >= flowerC.X && this.position.Y >= flowerC.Y)
+            if (this.position.X >= flowerC.X || this.position.Y >= flowerC.Y)
             {
                 isMovingToFlowerC = false;
                 isMovingToBaseAFromFlowerC = true;
             }
 
-
-            if (Keyboard.GetState().IsKeyDown(Keys.A) || (Keyboard.GetState().IsKeyDown(Keys.B) || (Keyboard.GetState().IsKeyDown(Keys.C))))
+            //Bool så bien står stiller mens den venter på spillerens input.
+            if (isWaitingForInput == false)
             {
+                //Bevæger bien baseret på direction og speed.
                 position += direction * this.speed;
             }
+            //Så biens står stille når den ikke får input.
+            isWaitingForInput = true;
         }
     }
 }
