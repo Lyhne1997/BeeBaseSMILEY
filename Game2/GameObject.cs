@@ -21,6 +21,7 @@ namespace Game2
 
         protected Vector2 position;
 
+        protected float speed;
 
         protected Vector2 origin;
 

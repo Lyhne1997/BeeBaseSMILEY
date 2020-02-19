@@ -37,6 +37,12 @@
 /processorParam:TextureFormat=Color
 /build:flower.png
 
+#begin Happy_Dreams.Background.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Happy_Dreams.Background.mp3
+
 #begin playerguy.jpg
 /importer:TextureImporter
 /processor:TextureProcessor

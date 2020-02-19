@@ -21,9 +21,9 @@ namespace Game2
         //Når bien først spawner og venter på input fra spilleren.
         private bool isWaitingForInput = true;
         //Når bien har samlet Nectar og skal bevæge sig mod basen, ændrer sig afhængigt af hvilken blomst den var ved.
-        /*private bool isMovingToBaseAFromFlowerA = false;
+        private bool isMovingToBaseAFromFlowerA = false;
         private bool isMovingToBaseAFromFlowerB = false;
-        private bool isMovingToBaseAFromFlowerC = false;*/
+        private bool isMovingToBaseAFromFlowerC = false;
         private bool isMovingToBaseA = false;
         //Når bien har fået input fra spilleren og får besked på at bevæge sig til en blomst for at hente Nectar.
         private bool isMovingToFlowerA = false;
@@ -39,13 +39,19 @@ namespace Game2
         private Vector2 direction;
         protected float rotation;
         private Vector2 distance;
-        public float speed;
 
         public Drone(Vector2 position)
         {
             this.position = position;
-            flowerA.X = 650;
+            flowerA.X = 10;
             flowerA.Y = 300;
+
+            flowerB.X = 650;
+            flowerB.Y = 300;
+
+            flowerC.X = 650;
+            flowerC.Y = 10;
+
             baseA.X = 0;
             baseA.Y = 0;
 
@@ -61,15 +67,47 @@ namespace Game2
         }
         private void DroneManagement(GameTime gameTime)
         {
-            if (isMovingToFlowerA == true)
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                distance.X = flowerA.X - this.position.X;
-                distance.Y = flowerA.Y - this.position.Y;
+
+                if (isMovingToFlowerA == true)
+                {
+                    distance.X = flowerA.X - this.position.X;
+                    distance.Y = flowerA.Y - this.position.Y;
+                }
+                if (isMovingToBaseAFromFlowerA == true)
+                {
+                    distance.X = baseA.X - this.position.X;
+                    distance.Y = baseA.Y - this.position.Y;
+                }
             }
-            if (isMovingToBaseA == true)
+            if (Keyboard.GetState().IsKeyDown(Keys.B))
             {
-                distance.X = baseA.X - this.position.X;
-                distance.Y = baseA.Y - this.position.Y;
+
+                if (isMovingToFlowerB == true)
+                {
+                    distance.X = flowerB.X - this.position.X;
+                    distance.Y = flowerB.Y - this.position.Y;
+                }
+                if (isMovingToBaseAFromFlowerB == true)
+                {
+                    distance.X = baseA.X - this.position.X;
+                    distance.Y = baseA.Y - this.position.Y;
+                }
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.C))
+            {
+
+                if (isMovingToFlowerC == true)
+                {
+                    distance.X = flowerC.X - this.position.X;
+                    distance.Y = flowerC.Y - this.position.Y;
+                }
+                if (isMovingToBaseAFromFlowerC == true)
+                {
+                    distance.X = baseA.X - this.position.X;
+                    distance.Y = baseA.Y - this.position.Y;
+                }
             }
 
             rotation = (float)Math.Atan2(distance.X, -distance.Y);
@@ -88,19 +126,45 @@ namespace Game2
                 positiveDistanceX *= -1;
                 positiveDistanceY *= -1;
             }
+            //Flower A
             if (this.position.X <= baseA.X && this.position.Y <= baseA.Y)
             {
-                isMovingToBaseA = false;
+                isMovingToBaseAFromFlowerA = false;
                 isMovingToFlowerA = true;
             }
             if (this.position.X >= flowerA.X && this.position.Y >= flowerA.Y)
             {
                 isMovingToFlowerA = false;
-                isMovingToBaseA = true;
+                isMovingToBaseAFromFlowerA = true;
+            }
+            //Flower B
+            if (this.position.X <= baseA.X && this.position.Y <= baseA.Y)
+            {
+                isMovingToBaseAFromFlowerB = false;
+                isMovingToFlowerB = true;
+            }
+            if (this.position.X >= flowerB.X && this.position.Y >= flowerB.Y)
+            {
+                isMovingToFlowerB = false;
+                isMovingToBaseAFromFlowerB = true;
+            }
+            //Flower C
+            if (this.position.X <= baseA.X && this.position.Y <= baseA.Y)
+            {
+                isMovingToBaseAFromFlowerC = false;
+                isMovingToFlowerC = true;
+            }
+            if (this.position.X >= flowerC.X && this.position.Y >= flowerC.Y)
+            {
+                isMovingToFlowerC = false;
+                isMovingToBaseAFromFlowerC = true;
             }
 
 
-            position += direction * this.speed;
+            if (Keyboard.GetState().IsKeyDown(Keys.A) || (Keyboard.GetState().IsKeyDown(Keys.B) || (Keyboard.GetState().IsKeyDown(Keys.C))))
+            {
+                position += direction * this.speed;
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Threading;
 using Game2.Mining;
-
+using Microsoft.Xna.Framework.Media;
 
 namespace Game2
 {
@@ -37,6 +37,7 @@ namespace Game2
         Texture2D texture;
 
         public SpriteFont text1;
+        private Song backgroundSound;
         public static GameWorld Instance;
 
         private static int stateS;
@@ -44,11 +45,21 @@ namespace Game2
         static Mutex m = new Mutex();
         private static Random random;
 
+        private static Vector2 screenSize;
+
+
+        public static Vector2 ScreenSize
+        {
+            get { return screenSize; }
+        }
 
         public GameWorld()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 768;
+            screenSize = new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
 
         /// <summary>
@@ -79,6 +90,13 @@ namespace Game2
             texture = this.Content.Load<Texture2D>("Bee");
 
             text1 = Content.Load<SpriteFont>("text");
+
+
+            // Sound
+            backgroundSound = Content.Load<Song>("Happy_Dreams.Background");
+            MediaPlayer.Play(backgroundSound);
+            MediaPlayer.Volume -= 0.5f;
+            MediaPlayer.IsRepeating = true;
 
             // TODO: use this.Content to load your game content here
             gameObjects.Add(new Drone(new Vector2(0, 0)));
