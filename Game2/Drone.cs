@@ -27,8 +27,15 @@ namespace Game2
         private bool flowerBInput = false;
         private bool flowerCInput = false;
         //Timer
-        private int timer;
-
+        public int timer;
+        private bool isWaitingForInput;
+        private bool isMovingToFlowerB;
+        private bool isMovingToBaseAFromFlowerB;
+        private bool isMovingToFlowerC;
+        private bool isMovingToBaseAFromFlowerC;
+        //private bool isCollectingFlowerA;
+        private bool isCollectingFlowerB;
+        private bool isCollectingFlowerC;
 
         public Drone()
         {
@@ -79,7 +86,7 @@ namespace Game2
         private void DroneManagement(GameTime gameTime)
         {
             //Player input til biens movement.
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (movesTowardFlower == true)
             {
                 flowerAInput = true;
                 flowerBInput = false;
@@ -112,8 +119,8 @@ namespace Game2
                 if (isMovingToBaseAFromFlowerA == true)
                 {
                     {
-                         distance.X = baseA.X - this.position.X;
-                         distance.Y = baseA.Y - this.position.Y;
+                        distance.X = baseA.X - this.position.X;
+                        distance.Y = baseA.Y - this.position.Y;
                     }
                 }
                 isWaitingForInput = false;
@@ -176,9 +183,9 @@ namespace Game2
                 isCollectingFlowerA = true;
                 if (timer >= 500)
                 {
-                isMovingToFlowerA = false;
-                isMovingToBaseAFromFlowerA = true;
-                isCollectingFlowerA = false;
+                    isMovingToFlowerA = false;
+                    isMovingToBaseAFromFlowerA = true;
+                    isCollectingFlowerA = false;
                 }
                 timer++;
             }
@@ -193,11 +200,11 @@ namespace Game2
             if (this.position.X >= flowerB.X || this.position.Y >= flowerB.Y)
             {
                 isCollectingFlowerB = true;
-                if(timer >= 500)
+                if (timer >= 500)
                 {
-                isMovingToFlowerB = false;
-                isMovingToBaseAFromFlowerB = true;
-                isCollectingFlowerB = false;
+                    isMovingToFlowerB = false;
+                    isMovingToBaseAFromFlowerB = true;
+                    isCollectingFlowerB = false;
                 }
                 timer++;
             }
@@ -214,9 +221,9 @@ namespace Game2
                 isCollectingFlowerC = true;
                 if (timer >= 500)
                 {
-                isMovingToFlowerC = false;
-                isMovingToBaseAFromFlowerC = true;
-                isCollectingFlowerC = false;
+                    isMovingToFlowerC = false;
+                    isMovingToBaseAFromFlowerC = true;
+                    isCollectingFlowerC = false;
                 }
                 timer++;
             }

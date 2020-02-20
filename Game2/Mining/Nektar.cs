@@ -17,7 +17,6 @@ namespace Game2.Mining
 
         public bool nektarmine = true;
 
-
         //Nektar nek = new Nektar()
         //{
         //    hej = true;
@@ -92,7 +91,7 @@ namespace Game2.Mining
                     //if bees enter == true then > mine
 
                     //if (enteringBees == "Bob-bi(1) kommer ind")
-                    if (enteringBees == "Bob-bi(1) kommer ind")
+                    if (isCollectingFlowerA == true)
                     {
                         remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
 

@@ -23,6 +23,11 @@ namespace Game2
         protected static bool movesTowardFlower = false;
         protected static bool isMovingToFlowerA = false;
 
+        protected static bool isCollectingFlowerA;
+
+        protected static bool isMovingToBaseAFromFlowerA;
+
+
         private int currentIndex;
         //
         private float timeElapsed;
