@@ -141,7 +141,7 @@ namespace Game2
 
                 //if ((int)id == 2)
                 //{
-                //    gameObjects.Add(new Drone(new Vector2(100, 100)));
+                    gameObjects.Add(new Drone());
 
                 //}
             
@@ -246,7 +246,7 @@ namespace Game2
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+           
             // TODO: Add your drawing code here
 
             spriteBatch.Begin();
@@ -326,7 +326,6 @@ namespace Game2
                                     SpriteEffects.None,
                                     1f);
             spriteBatch.End();
-
             base.Draw(gameTime);
         }
     }

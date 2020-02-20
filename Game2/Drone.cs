@@ -29,6 +29,7 @@ namespace Game2
         //Timer
         private int timer;
 
+
         public Drone()
         {
             //Position på Bien.
@@ -172,10 +173,12 @@ namespace Game2
             }
             if (this.position.X >= flowerA.X && this.position.Y >= flowerA.Y)
             {
+                isCollectingFlowerA = true;
                 if (timer >= 500)
                 {
                 isMovingToFlowerA = false;
                 isMovingToBaseAFromFlowerA = true;
+                isCollectingFlowerA = false;
                 }
                 timer++;
             }
@@ -189,10 +192,12 @@ namespace Game2
             }
             if (this.position.X >= flowerB.X || this.position.Y >= flowerB.Y)
             {
+                isCollectingFlowerB = true;
                 if(timer >= 500)
                 {
                 isMovingToFlowerB = false;
                 isMovingToBaseAFromFlowerB = true;
+                isCollectingFlowerB = false;
                 }
                 timer++;
             }
@@ -206,10 +211,12 @@ namespace Game2
             }
             if (this.position.X >= flowerC.X || this.position.Y >= flowerC.Y)
             {
+                isCollectingFlowerC = true;
                 if (timer >= 500)
                 {
                 isMovingToFlowerC = false;
                 isMovingToBaseAFromFlowerC = true;
+                isCollectingFlowerC = false;
                 }
                 timer++;
             }

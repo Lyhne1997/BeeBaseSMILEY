@@ -170,7 +170,7 @@ namespace Game2.Mining
                 if ((int)id == 1)
                 {
                     waitingBees = "Bob-bi 1 venter uden for";
-                    gameObjects.Add(new Drone(new Vector2(0, 0)));
+                    //gameObjects.Add(new Drone(new Vector2(0, 0)));
 
                     Thread.Sleep(1000);
                 }
