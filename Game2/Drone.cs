@@ -180,7 +180,7 @@ namespace Game2
                 timer++;
             }
             //Bestemmer hvilken position bien skal bevæge sig imod ved hjælp af booleans.
-            //Dette er mellem Basen og Flower "B".
+            //Dette er mellem Basen og Flower "B".132
             if (this.position.X <= baseA.X || this.position.Y <= baseA.Y)
             {
                 isMovingToBaseAFromFlowerB = false;
