@@ -30,6 +30,8 @@ namespace Game2
 
 
         }
+        public object id;
+
         public void Enter(object id)
         {
             this.id = id;
@@ -43,7 +45,7 @@ namespace Game2
         private Texture2D flowerC_sprite;
         private Texture2D flowerA_sprite_dead;
 
-        public bool flowerIsAlive = false;
+        public bool flowerIsAlive = true;
 
         public List<GameObject> gameObjects = new List<GameObject>();
         public List<GameObject> gameObjectsToAdd = new List<GameObject>();
@@ -65,7 +67,6 @@ namespace Game2
         private static Random random;
 
         private static Vector2 screenSize;
-        public object id;
 
         public static Vector2 ScreenSize
         {
@@ -132,22 +133,18 @@ namespace Game2
             // TODO: use this.Content to load your game content here
             gameObjects.Add(new Base());
 
-          
-                //if ((int)id == 1)
-                //{
-
-                //}
 
 
-                //if ((int)id == 2)
-                //{
-                //    gameObjects.Add(new Drone(new Vector2(100, 100)));
-
-                //}
-            
+            gameObjects.Add(new Drone());
 
 
-            //gameObjects.Add(new Mine(new Vector2(200, 100));
+            //if ((int)id == 2)
+            //{
+
+
+            //}
+
+
 
             foreach (GameObject gameObject in gameObjects)
             {
@@ -178,29 +175,16 @@ namespace Game2
             {
                 Exit();
             }
-
-            // Kill flower
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
-            {
-                flowerIsAlive = true;
-                //flowerA_sprite = Content.Load<Texture2D>("flower_dead");
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.E))
-            {
-                flowerIsAlive = false;
-
-                //flowerA_sprite = Content.Load<Texture2D>("flower_alive");
-            }
-
-
-
+            // Changes sprite if nektar in mine is 0
             if (flowerIsAlive == true)
             {
-                flowerA_sprite = Content.Load<Texture2D>("flower_dead");
-            }
-            if (flowerIsAlive == false)
-            {
                 flowerA_sprite = Content.Load<Texture2D>("flower_alive");
+
+            }
+            else if (flowerIsAlive == false)
+            {
+                flowerA_sprite = Content.Load<Texture2D>("flower_dead");
+
             }
 
 

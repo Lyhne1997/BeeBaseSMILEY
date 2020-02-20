@@ -20,6 +20,9 @@ namespace Game2
         //protected Vector2 flowerB;
         //protected Vector2 flowerC;
 
+        protected static bool movesTowardFlower = false;
+        protected static bool isMovingToFlowerA = false;
+
         private int currentIndex;
         //
         private float timeElapsed;
@@ -27,23 +30,7 @@ namespace Game2
         protected Texture2D sprite;
         protected int fps;
 
-        //Når bien først spawner og venter på input fra spilleren.
-        protected bool isWaitingForInput = true;
-        //Når bien har samlet Nectar og skal bevæge sig mod basen, ændrer sig afhængigt af hvilken blomst den var ved.
-        protected bool isMovingToBaseAFromFlowerA = false;
-        protected bool isMovingToBaseAFromFlowerB = false;
-        protected bool isMovingToBaseAFromFlowerC = false;
-        protected bool isMovingToBaseA = false;
-        //Når bien har fået input fra spilleren og får besked på at bevæge sig til en blomst for at hente Nectar.
-        protected bool isMovingToFlowerA = false;
-        protected bool isMovingToFlowerB = false;
-        protected bool isMovingToFlowerC = false;
-        //Når bien er ved blomsten og samler Nectar.
-        protected bool isCollectingFlowerA = false;
-        protected bool isCollectingFlowerB = false;
-        protected bool isCollectingFlowerC = false;
-        //Når bien er kommet til basen med Nectar og skal aflevere Nectar.
-        protected bool isOffloadingNectar = false;
+    
 
         protected Vector2 direction;
         protected float rotation;

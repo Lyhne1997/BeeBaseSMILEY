@@ -18,13 +18,21 @@ namespace Game2.Mining
         public bool nektarmine = true;
 
 
-        public void Drone(Vector2 position, object id)
-        {
-            GameWorld.Instance.id = id;
-            this.position = position;
+        //Nektar nek = new Nektar()
+        //{
+        //    hej = true;
+        //}
+        //public List<GameObject> gameObjects = new List<GameObject>();
 
 
-        }
+        // if leavingBees then drone should go to base 
+        // if waitingBees show sprites in front of the flower (not collecting)
+        // if enteringBees hide sprite since they are "in" the flower
+
+        // if enteringBees && postion = flower, then nektar++
+
+        Drone drone = new Drone();
+
 
         public string nektarInfo = "";
         public string waitingBees = "";
@@ -61,78 +69,69 @@ namespace Game2.Mining
         {
             int remainingNektarInMine = 100;
             int nektar = 0;
-
             /// nektarmine == true Should be changed since it stops the thread after the mine
             /// has run out of resources
             while (nektarmine == true)
             {
 
 
-                //if (m.WaitOne(500))
-                //{
-                //    if (state == 5)
-                //    {
-                //        state++;
-                //        Trace.Assert(state == 6, "Race Condition in Loop" + nektar);
-                //    }
-                //    state = 5;
-                //    nektar++;
-                //}
-                //else
-                //{
-
-
-                // if bees enter == true then > mine
-
-                if (enteringBees == "Bob-bi(1) kommer ind")
+                if (m.WaitOne(500))
                 {
-                    remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
-
-                    // Debug
-                    Debug.WriteLine($"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}");
-
-                    remainingNektarInMine--;
+                    if (state == 5)
+                    {
+                        state++;
+                        Trace.Assert(state == 6, "Race Condition in Loop" + nektar);
+                    }
+                    state = 5;
                     nektar++;
-                    minedNektar = $"You have mined a total of {nektar} Nektar";
-
-                    // Debug
-                    Debug.WriteLine($"You have mined a total of {nektar} Nektar");
                 }
-
-                //}
-
-
-
-
-                //remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
-
-                //// Debug
-                //Debug.WriteLine($"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}");
-                //remainingNektarInMine--;
-                //nektar++;
-
-
-                if (remainingNektarInMine <= 0)
-                {
-                    // Does not work......
-                    //GameWorld.Instance.flowerIsAlive = false;
-
-                    Debug.WriteLine("The mine is out of Nektar!");
-                }
-                if (remainingNektarInMine == 0)
+                else
                 {
 
-                    Debug.WriteLine("Press any key to refill the mine");
-                    Thread.Sleep(1000);
-                    remainingNektarInMine = 100;
-                    nektarmine = false;
-                }
 
-                Thread.Sleep(50);
+                    //if bees enter == true then > mine
+
+                    //if (enteringBees == "Bob-bi(1) kommer ind")
+                    if (enteringBees == "Bob-bi(1) kommer ind")
+                    {
+                        remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
+
+                        // Debug
+                        Debug.WriteLine($"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}");
+
+                        remainingNektarInMine--;
+                        nektar++;
+                        minedNektar = $"You have mined a total of {nektar} Nektar";
+
+                        // Debug
+                        Debug.WriteLine($"You have mined a total of {nektar} Nektar");
+                    }
+
+                    //}
+
+
+
+                    if (remainingNektarInMine <= 0)
+                    {
+                        // Kill flower if resources/nektar is 0
+                        GameWorld.Instance.flowerIsAlive = false;
+
+                        Debug.WriteLine("The mine is out of Nektar!");
+                    }
+                    if (remainingNektarInMine == 0)
+                    {
+
+                        Debug.WriteLine("Press any key to refill the mine");
+                        Thread.Sleep(1000);
+                        remainingNektarInMine = 100;
+                        nektarmine = false;
+                    }
+
+                    Thread.Sleep(50);
+                }
             }
+
         }
-
-
 
         public void MiningStart()
         {
@@ -151,29 +150,25 @@ namespace Game2.Mining
             MySemaphore.Release(3); // Nektar is available
         }
 
-        public List<GameObject> gameObjects = new List<GameObject>();
 
         public void Enter(object id)
         {
-            //nektarInfo2 = id.ToString() + " Starts and waits outside to enter";
-
-            //MySemaphore.WaitOne();  // Only three bees in here!
-            //nektarInfo3 = id.ToString() + " Enters the Nektar Mine";
-
-            //Thread.Sleep(1000 * (int)id);
-            //nektarInfo4 = id.ToString() + " is leaving";
-
-            //MySemaphore.Release();
-
             while (nektarmine == true)
             {
                 if ((int)id == 1)
                 {
-                    waitingBees = "Bob-bi 1 venter uden for";
-                    gameObjects.Add(new Drone(new Vector2(0, 0)));
 
-                    Thread.Sleep(1000);
+                    waitingBees = "Bob-bi 1 venter uden for";
+
+                    //drone.flowerAInput = true;
+                    //drone.flowerBInput = false;
+                    //drone.flowerCInput = false;
+
+                    movesTowardFlower = true;
+
+                    //isMovingToFlowerA = false;
                 }
+
                 if ((int)id == 2)
                 {
                     waitingBees = "Claus 2 venter uden for";
@@ -191,11 +186,14 @@ namespace Game2.Mining
                     waitingBees = "Lonni 5 venter uden for";
                 }
                 MySemaphore.WaitOne();  // Only three bees in here!
-                                        //Debug.WriteLine(id.ToString() + " Enters the Nektar Mine");
+
 
                 if ((int)id == 1)
                 {
                     enteringBees = "Bob-bi(1) kommer ind";
+                    movesTowardFlower = false;
+
+
                 }
                 else if ((int)id == 2)
                 {
@@ -323,7 +321,6 @@ namespace Game2.Mining
 
         public override void Update(GameTime gameTime)
         {
-
         }
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Game2.Mining;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +15,7 @@ namespace Game2
 {
     class Drone : GameObject
     {
-
+        //Nektar nek = new Nektar();
 
         //Vectorer til de forskellige assets.
         private Vector2 baseA;
@@ -28,7 +29,7 @@ namespace Game2
         private bool isMovingToBaseAFromFlowerB = false;
         private bool isMovingToBaseAFromFlowerC = false;
         //Når bien har fået input fra spilleren og får besked på at bevæge sig til en blomst for at hente Nectar.
-        private bool isMovingToFlowerA = false;
+        //private bool isMovingToFlowerA = false;
         private bool isMovingToFlowerB = false;
         private bool isMovingToFlowerC = false;
         //Når bien er ved blomsten og samler Nectar.
@@ -38,9 +39,9 @@ namespace Game2
         //Når bien er kommet til basen med Nectar og skal aflevere Nectar.
         private bool isOffloadingNectar = false;
         //Bool så man kun skal give input én gang for at få bien til at bevæge sig mod dets target.
-        private bool flowerAInput = false;
-        private bool flowerBInput = false;
-        private bool flowerCInput = false;
+        public bool flowerAInput = false;
+        public bool flowerBInput = false;
+        public bool flowerCInput = false;
 
         //Retningen som bien skal bevæge sig immod.
         private Vector2 direction;
@@ -70,10 +71,10 @@ namespace Game2
             speed = 10f;
         }
 
-        public Drone(Vector2 vector2)
-        {
-            this.vector2 = vector2;
-        }
+        //public Drone(Vector2 vector2)
+        //{
+        //    this.vector2 = vector2;
+        //}
 
         public override void LoadContent(ContentManager content)
         {
@@ -100,10 +101,34 @@ namespace Game2
             //Updaterer movement for hver "gametick".
             DroneManagement(gameTime);
         }
+
         private void DroneManagement(GameTime gameTime)
         {
             //Player input til biens movement.
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            //if (Keyboard.GetState().IsKeyDown(Keys.A))
+            //{
+            //    flowerAInput = true;
+            //    flowerBInput = false;
+            //    flowerCInput = false;
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.B))
+            //{
+            //    flowerAInput = false;
+            //    flowerBInput = true;
+            //    flowerCInput = false;
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.C))
+            //{
+            //    flowerAInput = false;
+            //    flowerBInput = false;
+            //    flowerCInput = true;
+            //}
+
+
+            //nek.enteringBees == "Bob-bi(1) kommer ind"
+
+            
+            if (movesTowardFlower == true)
             {
                 flowerAInput = true;
                 flowerBInput = false;
@@ -121,6 +146,8 @@ namespace Game2
                 flowerBInput = false;
                 flowerCInput = true;
             }
+
+
 
             //Udregner afstanden fra bien til Flower "A" eller Basen afhængigt af hvilken den skal bevæge sig imod.
             if (flowerAInput == true && flowerBInput == false && flowerCInput == false)
