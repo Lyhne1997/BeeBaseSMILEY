@@ -21,22 +21,6 @@ namespace Game2
         private Vector2 flowerA;
         private Vector2 flowerB;
         private Vector2 flowerC;
-        //Når bien først spawner og venter på input fra spilleren.
-        private bool isWaitingForInput = true;
-        //Når bien har samlet Nectar og skal bevæge sig mod basen, ændrer sig afhængigt af hvilken blomst den var ved.
-        private bool isMovingToBaseAFromFlowerA = false;
-        private bool isMovingToBaseAFromFlowerB = false;
-        private bool isMovingToBaseAFromFlowerC = false;
-        //Når bien har fået input fra spilleren og får besked på at bevæge sig til en blomst for at hente Nectar.
-        private bool isMovingToFlowerA = false;
-        private bool isMovingToFlowerB = false;
-        private bool isMovingToFlowerC = false;
-        //Når bien er ved blomsten og samler Nectar.
-        private bool isCollectingFlowerA = false;
-        private bool isCollectingFlowerB = false;
-        private bool isCollectingFlowerC = false;
-        //Når bien er kommet til basen med Nectar og skal aflevere Nectar.
-        private bool isOffloadingNectar = false;
 
         //Retningen som bien skal bevæge sig immod.
         private Vector2 direction;
@@ -45,10 +29,11 @@ namespace Game2
         //Afstanden fra bien og det mål som den skal hen til.
         private Vector2 distance;
 
-        public Drone()
+        public Drone(Vector2 position)
         {
-            //Position på Bien.
 
+            //Position på Bien.
+            this.position = position;
             //Position på Basen.    
             baseA.X = 40;
             baseA.Y = 40;

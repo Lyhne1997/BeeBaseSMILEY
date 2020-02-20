@@ -24,8 +24,17 @@ namespace Game2
     {
         public List<GameObject> gameObjects = new List<GameObject>();
         Nektar nek = new Nektar();
-        Drone drone = new Drone();
 
+        public void Drone(Vector2 position)
+        {
+            this.position = position;
+
+
+        }
+        public void Enter(object id)
+        {
+            this.id = id;
+        }
         // Background sprite
         private Texture2D background;
 
@@ -54,6 +63,7 @@ namespace Game2
         private static Random random;
 
         private static Vector2 screenSize;
+        public object id;
 
         public static Vector2 ScreenSize
         {
@@ -119,7 +129,20 @@ namespace Game2
             // TODO: use this.Content to load your game content here
             gameObjects.Add(new Base());
 
-            gameObjects.Add(new Drone());
+          
+                //if ((int)id == 1)
+                //{
+
+                //}
+
+
+                //if ((int)id == 2)
+                //{
+                //    gameObjects.Add(new Drone(new Vector2(100, 100)));
+
+                //}
+            
+
 
             //gameObjects.Add(new Mine(new Vector2(200, 100));
 
