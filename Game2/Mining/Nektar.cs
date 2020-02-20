@@ -15,10 +15,16 @@ namespace Game2.Mining
     {
         static Semaphore MySemaphore = new Semaphore(0, 3);     // Max 3
 
-        bool nektarmine = true;
+        public bool nektarmine = true;
 
 
-        Drone drone = new Drone();
+        public void Drone(Vector2 position, object id)
+        {
+            GameWorld.Instance.id = id;
+            this.position = position;
+
+
+        }
 
         public string nektarInfo = "";
         public string waitingBees = "";
@@ -145,6 +151,7 @@ namespace Game2.Mining
             MySemaphore.Release(3); // Nektar is available
         }
 
+        public List<GameObject> gameObjects = new List<GameObject>();
 
         public void Enter(object id)
         {
@@ -160,12 +167,12 @@ namespace Game2.Mining
 
             while (nektarmine == true)
             {
-
-
                 if ((int)id == 1)
                 {
                     waitingBees = "Bob-bi 1 venter uden for";
-                    Thread.Sleep(100);
+                    gameObjects.Add(new Drone(new Vector2(0, 0)));
+
+                    Thread.Sleep(1000);
                 }
                 if ((int)id == 2)
                 {
