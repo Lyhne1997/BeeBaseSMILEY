@@ -22,7 +22,6 @@ namespace Game2
 
     public class GameWorld : Game
     {
-        public List<GameObject> gameObjects = new List<GameObject>();
         Nektar nek = new Nektar();
 
         public void Drone(Vector2 position)
@@ -46,6 +45,9 @@ namespace Game2
 
         public bool flowerIsAlive = false;
 
+        public List<GameObject> gameObjects = new List<GameObject>();
+        public List<GameObject> gameObjectsToAdd = new List<GameObject>();
+        public List<GameObject> gameObjectsToRemove = new List<GameObject>();
 
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
@@ -77,6 +79,7 @@ namespace Game2
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             screenSize = new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            Instance = this;
         }
 
         /// <summary>
@@ -171,7 +174,6 @@ namespace Game2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
@@ -227,7 +229,9 @@ namespace Game2
                 gameObject.Update(gameTime);
             }
 
-
+            gameObjects.AddRange(gameObjectsToAdd);
+            gameObjects.RemoveAll(go => gameObjectsToRemove.Contains(go));
+            gameObjectsToRemove.Clear();
             //Debug.WriteLine(position.X.ToString() +
             //                    "," + position.Y.ToString());
             base.Update(gameTime);

@@ -21,6 +21,26 @@ namespace Game2
         private Vector2 flowerA;
         private Vector2 flowerB;
         private Vector2 flowerC;
+        //Når bien først spawner og venter på input fra spilleren.
+        private bool isWaitingForInput = true;
+        //Når bien har samlet Nectar og skal bevæge sig mod basen, ændrer sig afhængigt af hvilken blomst den var ved.
+        private bool isMovingToBaseAFromFlowerA = false;
+        private bool isMovingToBaseAFromFlowerB = false;
+        private bool isMovingToBaseAFromFlowerC = false;
+        //Når bien har fået input fra spilleren og får besked på at bevæge sig til en blomst for at hente Nectar.
+        private bool isMovingToFlowerA = false;
+        private bool isMovingToFlowerB = false;
+        private bool isMovingToFlowerC = false;
+        //Når bien er ved blomsten og samler Nectar.
+        private bool isCollectingFlowerA = false;
+        private bool isCollectingFlowerB = false;
+        private bool isCollectingFlowerC = false;
+        //Når bien er kommet til basen med Nectar og skal aflevere Nectar.
+        private bool isOffloadingNectar = false;
+        //Bool så man kun skal give input én gang for at få bien til at bevæge sig mod dets target.
+        private bool flowerAInput = false;
+        private bool flowerBInput = false;
+        private bool flowerCInput = false;
 
         //Retningen som bien skal bevæge sig immod.
         private Vector2 direction;
@@ -28,12 +48,12 @@ namespace Game2
         protected float rotation;
         //Afstanden fra bien og det mål som den skal hen til.
         private Vector2 distance;
+        private Vector2 vector2;
 
-        public Drone(Vector2 position)
+        public Drone()
         {
-
             //Position på Bien.
-            this.position = position;
+            //this.position = position;
             //Position på Basen.    
             baseA.X = 40;
             baseA.Y = 40;
@@ -49,6 +69,12 @@ namespace Game2
             //Biernes hastighed.
             speed = 10f;
         }
+
+        public Drone(Vector2 vector2)
+        {
+            this.vector2 = vector2;
+        }
+
         public override void LoadContent(ContentManager content)
         {
             //Loader vores sprite.
@@ -76,11 +102,28 @@ namespace Game2
         }
         private void DroneManagement(GameTime gameTime)
         {
-   
-
+            //Player input til biens movement.
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                flowerAInput = true;
+                flowerBInput = false;
+                flowerCInput = false;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.B))
+            {
+                flowerAInput = false;
+                flowerBInput = true;
+                flowerCInput = false;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.C))
+            {
+                flowerAInput = false;
+                flowerBInput = false;
+                flowerCInput = true;
+            }
 
             //Udregner afstanden fra bien til Flower "A" eller Basen afhængigt af hvilken den skal bevæge sig imod.
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (flowerAInput == true && flowerBInput == false && flowerCInput == false)
             {
 
                 if (isMovingToFlowerA == true)
@@ -96,7 +139,7 @@ namespace Game2
                 isWaitingForInput = false;
             }
             ////Udregner afstanden fra bien til Flower "B" eller Basen afhængigt af hvilken den skal bevæge sig imod.
-            if (Keyboard.GetState().IsKeyDown(Keys.B))
+            if (flowerBInput == true && flowerAInput == false && flowerCInput == false)
             {
 
                 if (isMovingToFlowerB == true)
@@ -112,7 +155,7 @@ namespace Game2
                 isWaitingForInput = false;
             }
             ////Udregner afstanden fra bien til Flower "C" eller Basen afhængigt af hvilken den skal bevæge sig imod.
-            if (Keyboard.GetState().IsKeyDown(Keys.C))
+            if (flowerCInput == true && flowerAInput == false && flowerBInput == false)
             {
 
                 if (isMovingToFlowerC == true)
