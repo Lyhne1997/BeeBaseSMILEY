@@ -25,7 +25,11 @@ namespace Game2
         }
         public override void Update(GameTime gameTime)
         {
-
+            if(Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+            Drone drone = new Drone(new Vector2(0,0));
+            GameWorld.Instance.gameObjectsToAdd.Add(new Drone);
+            }
         }
     }
 }

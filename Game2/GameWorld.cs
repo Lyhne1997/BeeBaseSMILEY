@@ -29,6 +29,8 @@ namespace Game2
         Nektar nek = new Nektar();
 
         public List<GameObject> gameObjects = new List<GameObject>();
+        public List<GameObject> gameObjectsToAdd = new List<GameObject>();
+        public List<GameObject> gameObjectsToRemove = new List<GameObject>();
 
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
@@ -60,6 +62,7 @@ namespace Game2
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             screenSize = new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            Instance = this;
         }
 
         /// <summary>
@@ -99,8 +102,12 @@ namespace Game2
             MediaPlayer.IsRepeating = true;
 
             // TODO: use this.Content to load your game content here
-            gameObjects.Add(new Drone(new Vector2(0, 0)));
             //gameObjects.Add(new Mine(new Vector2(200, 100));
+            /*if(Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                gameObjects.Add(new Drone(new Vector2(0, 0)));
+            }
+            gameObjects.Add(new Drone(new Vector2(0, 0)));*/
 
             foreach (GameObject gameObject in gameObjects)
             {
@@ -127,7 +134,6 @@ namespace Game2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
@@ -157,7 +163,9 @@ namespace Game2
                 gameObject.Update(gameTime);
             }
 
-
+            gameObjects.AddRange(gameObjectsToAdd);
+            gameObjects.RemoveAll(go => gameObjectsToRemove.Contains(go));
+            gameObjectsToRemove.Clear();
             //Debug.WriteLine(position.X.ToString() +
             //                    "," + position.Y.ToString());
             base.Update(gameTime);
