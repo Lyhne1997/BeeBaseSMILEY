@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Game2
@@ -21,34 +22,12 @@ namespace Game2
         private Vector2 flowerA;
         private Vector2 flowerB;
         private Vector2 flowerC;
-        //Når bien først spawner og venter på input fra spilleren.
-        private bool isWaitingForInput = true;
-        //Når bien har samlet Nectar og skal bevæge sig mod basen, ændrer sig afhængigt af hvilken blomst den var ved.
-        private bool isMovingToBaseAFromFlowerA = false;
-        private bool isMovingToBaseAFromFlowerB = false;
-        private bool isMovingToBaseAFromFlowerC = false;
-        //Når bien har fået input fra spilleren og får besked på at bevæge sig til en blomst for at hente Nectar.
-        private bool isMovingToFlowerA = false;
-        private bool isMovingToFlowerB = false;
-        private bool isMovingToFlowerC = false;
-        //Når bien er ved blomsten og samler Nectar.
-        private bool isCollectingFlowerA = false;
-        private bool isCollectingFlowerB = false;
-        private bool isCollectingFlowerC = false;
-        //Når bien er kommet til basen med Nectar og skal aflevere Nectar.
-        private bool isOffloadingNectar = false;
         //Bool så man kun skal give input én gang for at få bien til at bevæge sig mod dets target.
         private bool flowerAInput = false;
         private bool flowerBInput = false;
         private bool flowerCInput = false;
-
-        //Retningen som bien skal bevæge sig immod.
-        private Vector2 direction;
-        //Roterer bien afhængigt af hvilken retning den har.
-        protected float rotation;
-        //Afstanden fra bien og det mål som den skal hen til.
-        private Vector2 distance;
-        private Vector2 vector2;
+        //Timer
+        private int timer;
 
         public Drone()
         {
@@ -69,11 +48,7 @@ namespace Game2
             //Biernes hastighed.
             speed = 10f;
         }
-
-        public Drone(Vector2 vector2)
-        {
-            this.vector2 = vector2;
-        }
+        //public static void Sleep(int millisecondsTimeout);
 
         public override void LoadContent(ContentManager content)
         {
@@ -128,13 +103,17 @@ namespace Game2
 
                 if (isMovingToFlowerA == true)
                 {
-                    distance.X = flowerA.X - this.position.X;
-                    distance.Y = flowerA.Y - this.position.Y;
+                    {
+                        distance.X = flowerA.X - this.position.X;
+                        distance.Y = flowerA.Y - this.position.Y;
+                    }
                 }
                 if (isMovingToBaseAFromFlowerA == true)
                 {
-                    distance.X = baseA.X - this.position.X;
-                    distance.Y = baseA.Y - this.position.Y;
+                    {
+                         distance.X = baseA.X - this.position.X;
+                         distance.Y = baseA.Y - this.position.Y;
+                    }
                 }
                 isWaitingForInput = false;
             }
@@ -144,13 +123,17 @@ namespace Game2
 
                 if (isMovingToFlowerB == true)
                 {
-                    distance.X = flowerB.X - this.position.X;
-                    distance.Y = flowerB.Y - this.position.Y;
+                    {
+                        distance.X = flowerB.X - this.position.X;
+                        distance.Y = flowerB.Y - this.position.Y;
+                    }
                 }
                 if (isMovingToBaseAFromFlowerB == true)
                 {
-                    distance.X = baseA.X - this.position.X;
-                    distance.Y = baseA.Y - this.position.Y;
+                    {
+                        distance.X = baseA.X - this.position.X;
+                        distance.Y = baseA.Y - this.position.Y;
+                    }
                 }
                 isWaitingForInput = false;
             }
@@ -160,13 +143,17 @@ namespace Game2
 
                 if (isMovingToFlowerC == true)
                 {
-                    distance.X = flowerC.X - this.position.X;
-                    distance.Y = flowerC.Y - this.position.Y;
+                    {
+                        distance.X = flowerC.X - this.position.X;
+                        distance.Y = flowerC.Y - this.position.Y;
+                    }
                 }
                 if (isMovingToBaseAFromFlowerC == true)
                 {
-                    distance.X = baseA.X - this.position.X;
-                    distance.Y = baseA.Y - this.position.Y;
+                    {
+                        distance.X = baseA.X - this.position.X;
+                        distance.Y = baseA.Y - this.position.Y;
+                    }
                 }
                 isWaitingForInput = false;
             }
@@ -181,11 +168,16 @@ namespace Game2
             {
                 isMovingToBaseAFromFlowerA = false;
                 isMovingToFlowerA = true;
+                timer = 0;
             }
             if (this.position.X >= flowerA.X && this.position.Y >= flowerA.Y)
             {
+                if (timer >= 500)
+                {
                 isMovingToFlowerA = false;
                 isMovingToBaseAFromFlowerA = true;
+                }
+                timer++;
             }
             //Bestemmer hvilken position bien skal bevæge sig imod ved hjælp af booleans.
             //Dette er mellem Basen og Flower "B".
@@ -193,11 +185,16 @@ namespace Game2
             {
                 isMovingToBaseAFromFlowerB = false;
                 isMovingToFlowerB = true;
+                timer = 0;
             }
             if (this.position.X >= flowerB.X || this.position.Y >= flowerB.Y)
             {
+                if(timer >= 500)
+                {
                 isMovingToFlowerB = false;
                 isMovingToBaseAFromFlowerB = true;
+                }
+                timer++;
             }
             //Bestemmer hvilken position bien skal bevæge sig imod ved hjælp af booleans.
             //Dette er mellem Basen og Flower "C".
@@ -205,13 +202,17 @@ namespace Game2
             {
                 isMovingToBaseAFromFlowerC = false;
                 isMovingToFlowerC = true;
+                timer = 0;
             }
             if (this.position.X >= flowerC.X || this.position.Y >= flowerC.Y)
             {
+                if (timer >= 500)
+                {
                 isMovingToFlowerC = false;
                 isMovingToBaseAFromFlowerC = true;
+                }
+                timer++;
             }
-
             //Bool så bien står stiller mens den venter på spillerens input.
             if (isWaitingForInput == false)
             {
