@@ -22,7 +22,6 @@ namespace Game2
 
     public class GameWorld : Game
     {
-        public List<GameObject> gameObjects = new List<GameObject>();
         Nektar nek = new Nektar();
         Drone drone = new Drone();
 
