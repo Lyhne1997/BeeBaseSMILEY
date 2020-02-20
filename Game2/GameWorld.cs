@@ -22,11 +22,20 @@ namespace Game2
 
     public class GameWorld : Game
     {
-
-        //GameConsole console = new GameConsole(this, spriteBatch); // where `this` is your `Game` class
-
-
+        public List<GameObject> gameObjects = new List<GameObject>();
         Nektar nek = new Nektar();
+        Drone drone = new Drone();
+
+        // Background sprite
+        private Texture2D background;
+
+        // Flower sprites
+        private Texture2D flowerA_sprite;
+        private Texture2D flowerB_sprite;
+        private Texture2D flowerC_sprite;
+        private Texture2D flowerA_sprite_dead;
+
+        public bool flowerIsAlive = false;
 
         public List<GameObject> gameObjects = new List<GameObject>();
         public List<GameObject> gameObjectsToAdd = new List<GameObject>();
@@ -48,7 +57,6 @@ namespace Game2
         private static Random random;
 
         private static Vector2 screenSize;
-
 
         public static Vector2 ScreenSize
         {
@@ -94,6 +102,17 @@ namespace Game2
 
             text1 = Content.Load<SpriteFont>("text");
 
+            background = Content.Load<Texture2D>("Background");
+
+            // flower alive sprites
+            flowerA_sprite = Content.Load<Texture2D>("flower_dead");
+            flowerB_sprite = Content.Load<Texture2D>("flower_dead");
+            flowerC_sprite = Content.Load<Texture2D>("flower_dead");
+
+            // flower dead sprites
+            flowerA_sprite = Content.Load<Texture2D>("flower_alive");
+            flowerB_sprite = Content.Load<Texture2D>("flower_alive");
+            flowerC_sprite = Content.Load<Texture2D>("flower_alive");
 
             // Sound
             backgroundSound = Content.Load<Song>("Happy_Dreams.Background");
@@ -102,12 +121,11 @@ namespace Game2
             MediaPlayer.IsRepeating = true;
 
             // TODO: use this.Content to load your game content here
+            gameObjects.Add(new Base());
+
+            gameObjects.Add(new Drone());
+
             //gameObjects.Add(new Mine(new Vector2(200, 100));
-            /*if(Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                gameObjects.Add(new Drone(new Vector2(0, 0)));
-            }
-            gameObjects.Add(new Drone(new Vector2(0, 0)));*/
 
             foreach (GameObject gameObject in gameObjects)
             {
@@ -138,22 +156,48 @@ namespace Game2
             {
                 Exit();
             }
-            MouseState state = Mouse.GetState();
 
-            // Update our sprites position to the current cursor location
-            position.X = state.X;
-            position.Y = state.Y;
-
-            // Check if Right Mouse Button pressed, if so, exit
-            if (state.RightButton == ButtonState.Pressed)
-                Exit();
-
-
-            // Test to see if mouse reacts when hitting a certain point on the screen
-            if (state.X >= 100 && state.X <= 120)
+            // Kill flower
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
-                Debug.WriteLine("hit");
+                flowerIsAlive = true;
+                //flowerA_sprite = Content.Load<Texture2D>("flower_dead");
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                flowerIsAlive = false;
+
+                //flowerA_sprite = Content.Load<Texture2D>("flower_alive");
+            }
+
+
+
+            if (flowerIsAlive == true)
+            {
+                flowerA_sprite = Content.Load<Texture2D>("flower_dead");
+            }
+            if (flowerIsAlive == false)
+            {
+                flowerA_sprite = Content.Load<Texture2D>("flower_alive");
+            }
+
+
+            //MouseState state = Mouse.GetState();
+
+            //// Update our sprites position to the current cursor location
+            //position.X = state.X;
+            //position.Y = state.Y;
+
+            //// Check if Right Mouse Button pressed, if so, exit
+            //if (state.RightButton == ButtonState.Pressed)
+            //    Exit();
+
+
+            //// Test to see if mouse reacts when hitting a certain point on the screen
+            //if (state.X >= 100 && state.X <= 120)
+            //{
+            //    Debug.WriteLine("hit");
+            //}
 
 
             //// TODO: Add your update logic here
@@ -186,7 +230,16 @@ namespace Game2
             spriteBatch.Begin();
             spriteBatch.Draw(texture, position, origin: new Vector2(64, 64));
 
-          
+            spriteBatch.Draw(background, position, origin: new Vector2(0, 0));
+
+
+            spriteBatch.Draw(flowerA_sprite, new Vector2(850, 600));
+            spriteBatch.Draw(flowerB_sprite, new Vector2(850, 0));
+            spriteBatch.Draw(flowerC_sprite, new Vector2(0, 600));
+
+
+
+
 
 
             foreach (GameObject gameObject in gameObjects)

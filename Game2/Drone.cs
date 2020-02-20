@@ -14,6 +14,8 @@ namespace Game2
 {
     class Drone : GameObject
     {
+
+
         //Vectorer til de forskellige assets.
         private Vector2 baseA;
         private Vector2 flowerA;
@@ -53,20 +55,19 @@ namespace Game2
             //Position på Bien.
             //this.position = position;
             //Position på Basen.    
-            baseA.X = 50;
-            baseA.Y = 50;
+            baseA.X = 40;
+            baseA.Y = 40;
             //Position på Flower A.
-            flowerA.X = 140;
+            flowerA.X = 45;
             flowerA.Y = 530;
             //Position på Flower B.
             flowerB.X = 850;
-            flowerB.Y = 580;
+            flowerB.Y = 650;
             //Position på Flower C.
             flowerC.X = 820;
-            flowerC.Y = 70;
+            flowerC.Y = 55;
             //Biernes hastighed.
-            speed = 20f;
-            //
+            speed = 10f;
         }
 
         public Drone(Vector2 vector2)
@@ -77,10 +78,25 @@ namespace Game2
         public override void LoadContent(ContentManager content)
         {
             //Loader vores sprite.
-            sprite = content.Load<Texture2D>("Bee");
+            //sprite = content.Load<Texture2D>("bee1");
+
+            sprites = new Texture2D[3];
+
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                sprites[i] = content.Load<Texture2D>(i + 1 + ("bee"));
+            }
+
+            fps = 8;
+
+            sprite = sprites[0];
+
+
         }
         public override void Update(GameTime gameTime)
         {
+            Animation(gameTime);
+
             //Updaterer movement for hver "gametick".
             DroneManagement(gameTime);
         }

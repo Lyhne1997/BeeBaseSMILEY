@@ -13,8 +13,12 @@ namespace Game2.Mining
 {
     public class Nektar : GameObject
     {
-
         static Semaphore MySemaphore = new Semaphore(0, 3);     // Max 3
+
+        bool nektarmine = true;
+
+
+        Drone drone = new Drone();
 
         public string nektarInfo = "";
         public string waitingBees = "";
@@ -29,6 +33,7 @@ namespace Game2.Mining
 
         static readonly object lockObject = new object();
         static Mutex m = new Mutex();
+        private int state;
 
         //private static Random random;
         public void StartShit()
@@ -45,13 +50,34 @@ namespace Game2.Mining
         tælles count op. Release(3) kan sørge for at alle kommer ud, dvs.
         tømme natklubben. Release(), tæller blot en op sv.t. en enkelt tråd der
         forlader */
+
         public void RunMe()
         {
-            bool nektarmine = true;
             int remainingNektarInMine = 100;
             int nektar = 0;
+
+            /// nektarmine == true Should be changed since it stops the thread after the mine
+            /// has run out of resources
             while (nektarmine == true)
             {
+
+
+                //if (m.WaitOne(500))
+                //{
+                //    if (state == 5)
+                //    {
+                //        state++;
+                //        Trace.Assert(state == 6, "Race Condition in Loop" + nektar);
+                //    }
+                //    state = 5;
+                //    nektar++;
+                //}
+                //else
+                //{
+
+
+                // if bees enter == true then > mine
+
                 if (enteringBees == "Bob-bi(1) kommer ind")
                 {
                     remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
@@ -67,6 +93,10 @@ namespace Game2.Mining
                     Debug.WriteLine($"You have mined a total of {nektar} Nektar");
                 }
 
+                //}
+
+
+
 
                 //remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
 
@@ -78,10 +108,10 @@ namespace Game2.Mining
 
                 if (remainingNektarInMine <= 0)
                 {
+                    // Does not work......
+                    //GameWorld.Instance.flowerIsAlive = false;
+
                     Debug.WriteLine("The mine is out of Nektar!");
-
-
-
                 }
                 if (remainingNektarInMine == 0)
                 {
@@ -89,7 +119,7 @@ namespace Game2.Mining
                     Debug.WriteLine("Press any key to refill the mine");
                     Thread.Sleep(1000);
                     remainingNektarInMine = 100;
-                    nektarmine = true;
+                    nektarmine = false;
                 }
 
                 Thread.Sleep(50);
@@ -128,11 +158,14 @@ namespace Game2.Mining
 
             //MySemaphore.Release();
 
-            while (true)
+            while (nektarmine == true)
             {
+
+
                 if ((int)id == 1)
                 {
                     waitingBees = "Bob-bi 1 venter uden for";
+                    Thread.Sleep(100);
                 }
                 if ((int)id == 2)
                 {
