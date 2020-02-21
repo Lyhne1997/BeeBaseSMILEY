@@ -45,8 +45,11 @@ namespace Game2
         private bool isCollectingFlowerB;
         private bool isCollectingFlowerC;
 
-        public Drone(Vector2 position)
+        public Drone(Vector2 position, bool flowerAInput, bool flowerBInput, bool flowerCInput)
         {
+            this.flowerAInput = flowerAInput;
+            this.flowerBInput = flowerBInput;
+            this.flowerCInput = flowerCInput;
             //Position på Bien.
             //this.position = position;
             this.position = position;
@@ -107,12 +110,12 @@ namespace Game2
         private void DroneManagement(GameTime gameTime)
         {
             //Player input til biens movement.
-            //if (movesTowardFlower == true)
-            //{
-            //    flowerAInput = true;
-            //    flowerBInput = false;
-            //    flowerCInput = false;
-            //}
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                flowerAInput = true;
+                flowerBInput = false;
+                flowerCInput = false;
+            }
             if (Keyboard.GetState().IsKeyDown(Keys.B))
             {
                 flowerAInput = false;

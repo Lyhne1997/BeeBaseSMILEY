@@ -152,8 +152,10 @@ namespace Game2
 
 
 
-            gameObjects.Add(new Drone(new Vector2(0, 0)));
-            gameObjects.Add(new Drone(new Vector2(10, 0)));
+            gameObjects.Add(new Drone(new Vector2(0, 0), true, false, false));
+            gameObjects.Add(new Drone(new Vector2(100, 0), false, true, false));
+            gameObjects.Add(new Drone(new Vector2(50, 0), false, false, true));
+
 
             //gameObjects.Add(new Drone(new Vector2(0, 0), true));
 

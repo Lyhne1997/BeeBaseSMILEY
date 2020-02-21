@@ -178,7 +178,7 @@ namespace Game2.Mining
                     //drone.flowerBInput = false;
                     //drone.flowerCInput = false;
 
-                    movesTowardFlower = true;
+                    //movesTowardFlower = true;
 
                     //isMovingToFlowerA = false;
                 }
