@@ -38,12 +38,13 @@ namespace Game2
         private bool isMovingToFlowerC;
         private bool isMovingToBaseAFromFlowerC;
         //
-        private bool isWaitingToCollectFlowerA;
+        public static bool isWaitingToCollectFlowerA;
         private bool isWaitingToCollectFlowerB;
         private bool isWaitingToCollectFlowerC;
         //private bool isCollectingFlowerA;
         private bool isCollectingFlowerB;
         private bool isCollectingFlowerC;
+        public static Drone Instance;
 
         public Drone(Vector2 position, bool flowerAInput, bool flowerBInput, bool flowerCInput)
         {
@@ -66,17 +67,18 @@ namespace Game2
             //Position på Flower C.
             flowerC.X = 820;
             flowerC.Y = 55;
-            //
+            //Når bien venter på at få plads i blomsten "A"
             waitingFlowerA.X = 45;
             waitingFlowerA.Y = 480;
-            //
+            //Når bien venter på at få plads i blomsten "B"
             waitingFlowerB.X = 800;
             waitingFlowerB.Y = 600;
-            //
+            //Når bien venter på at få plads i blomsten "C"
             waitingFlowerC.X = 770;
             waitingFlowerC.Y = 55;
             //Biernes hastighed.
-            speed = 10f;
+            speed = 2f;
+            Instance = this;
         }
 
 
@@ -242,7 +244,7 @@ namespace Game2
 
             //Bestemmer hvilken position bien skal bevæge sig imod ved hjælp af booleans.
             //Dette er mellem Basen og Flower "A".
-            if (this.position.X <= baseA.X && this.position.Y <= baseA.Y)
+            /*if (this.position.X <= baseA.X && this.position.Y <= baseA.Y)
             {
                 isMovingToBaseAFromFlowerA = false;
                 isMovingToFlowerA = false;
@@ -269,7 +271,7 @@ namespace Game2
                     isCollectingFlowerA = false;
                 }
                 timer++;
-            }
+            }*/
             //Bestemmer hvilken position bien skal bevæge sig imod ved hjælp af booleans.
             //Dette er mellem Basen og Flower "B".132
             if (this.position.X <= baseA.X || this.position.Y <= baseA.Y)

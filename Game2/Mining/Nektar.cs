@@ -172,6 +172,10 @@ namespace Game2.Mining
                 {
                     idList.Add(1);
 
+                    Drone.isWaitingToCollectFlowerA = true;
+                    isCollectingFlowerA = false;
+                    isMovingToBaseAFromFlowerA = false;
+
                     waitingBees = "Bob-bi 1 venter uden for";
 
                     //drone.flowerAInput = true;
@@ -186,7 +190,6 @@ namespace Game2.Mining
                 {
                     idList.Remove(1);
                 }
-
                 if ((int)id == 2)
                 {
                 idList.Add(1);
@@ -223,7 +226,6 @@ namespace Game2.Mining
                 {
                     idList.Remove(1);
                 }
-
                 // List Count
                 if (idList.Count <= 3)
                 {
@@ -235,6 +237,9 @@ namespace Game2.Mining
 
                 if ((int)id == 1)
                 {
+                    isCollectingFlowerA = true;
+                    Drone.isWaitingToCollectFlowerA = false;
+                    isMovingToBaseAFromFlowerA = false;
                     enteringBees = "Bob-bi(1) kommer ind";
                     movesTowardFlower = false;
 
@@ -256,12 +261,14 @@ namespace Game2.Mining
                 {
                     enteringBees = "Lonni(5) kommer ind";
                 }
-
                 Thread.Sleep(1000 * (int)id);
                 //Debug.WriteLine(id.ToString() + " is leaving");
 
                 if ((int)id == 1)
                 {
+                    isMovingToBaseAFromFlowerA = true;
+                    isCollectingFlowerA = false;
+                    Drone.isWaitingToCollectFlowerA = false;
                     leavingBees = "Bob-bi(1) forlader";
                 }
                 else if ((int)id == 2)
