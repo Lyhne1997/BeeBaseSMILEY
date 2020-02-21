@@ -37,10 +37,12 @@ namespace Game2
         private bool isCollectingFlowerB;
         private bool isCollectingFlowerC;
 
-        public Drone()
+        public Drone(Vector2 position)
         {
             //Position på Bien.
             //this.position = position;
+            this.position = position;
+            //this.isMovingToFlowerB = isMovingToFlowerB;
             //Position på Basen.    
             baseA.X = 40;
             baseA.Y = 40;
@@ -56,6 +58,9 @@ namespace Game2
             //Biernes hastighed.
             speed = 10f;
         }
+
+   
+
         //public static void Sleep(int millisecondsTimeout);
 
         public override void LoadContent(ContentManager content)
@@ -86,12 +91,12 @@ namespace Game2
         private void DroneManagement(GameTime gameTime)
         {
             //Player input til biens movement.
-            if (movesTowardFlower == true)
-            {
-                flowerAInput = true;
-                flowerBInput = false;
-                flowerCInput = false;
-            }
+            //if (movesTowardFlower == true)
+            //{
+            //    flowerAInput = true;
+            //    flowerBInput = false;
+            //    flowerCInput = false;
+            //}
             if (Keyboard.GetState().IsKeyDown(Keys.B))
             {
                 flowerAInput = false;

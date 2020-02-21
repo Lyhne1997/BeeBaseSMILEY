@@ -17,6 +17,9 @@ namespace Game2.Mining
 
         public bool nektarmine = true;
 
+   
+     
+
         //Nektar nek = new Nektar()
         //{
         //    hej = true;
@@ -30,7 +33,7 @@ namespace Game2.Mining
 
         // if enteringBees && postion = flower, then nektar++
 
-        Drone drone = new Drone();
+        //Drone drone = new Drone();
 
 
         public string nektarInfo = "";
@@ -146,16 +149,28 @@ namespace Game2.Mining
             nektarInfo = "Release Bees(3).";
 
             //Debug.WriteLine("Realse Bees(3).");
-            MySemaphore.Release(3); // Nektar is available
+            MySemaphore.Release(3); // Nektarmine is available
         }
 
+        
+        public List<int> idList = new List<int>();
 
         public void Enter(object id)
         {
+            //object id;
+
+
+            //IList<IDs> idList = new List<IList>() {
+            //    new IList(){ ID=1, StudentName="Bill"},
+            //    new IList(){ ID=2, StudentName="Steve"}
+            //}
+
             while (nektarmine == true)
             {
+      
                 if ((int)id == 1)
                 {
+                    idList.Add(1);
 
                     waitingBees = "Bob-bi 1 venter uden for";
 
@@ -167,23 +182,54 @@ namespace Game2.Mining
 
                     //isMovingToFlowerA = false;
                 }
+                else
+                {
+                    idList.Remove(1);
+                }
 
                 if ((int)id == 2)
                 {
+                idList.Add(1);
                     waitingBees = "Claus 2 venter uden for";
+                }
+                else
+                {
+                    idList.Remove(1);
                 }
                 if ((int)id == 3)
                 {
+                idList.Add(1);
                     waitingBees = "TonnyBonde 3 venter uden for";
+                }
+                else
+                {
+                    idList.Remove(1);
                 }
                 if ((int)id == 4)
                 {
+                idList.Add(1);
                     waitingBees = "Karsten 4 venter uden for";
+                }
+                else
+                {
+                    idList.Remove(1);
                 }
                 if ((int)id == 5)
                 {
+                idList.Add(1);
                     waitingBees = "Lonni 5 venter uden for";
                 }
+                else
+                {
+                    idList.Remove(1);
+                }
+
+                // List Count
+                if (idList.Count <= 3)
+                {
+                    Debug.WriteLine("hej");
+                }
+
                 MySemaphore.WaitOne();  // Only three bees in here!
 
 
@@ -234,12 +280,14 @@ namespace Game2.Mining
                 {
                     leavingBees = "Lonni(5) forlader";
                 }
-
+                Debug.WriteLine(idList.Count);
                 MySemaphore.Release();
+
+             
             }
 
 
-
+ 
 
             #region Debug
             //if ((int)id == 1)

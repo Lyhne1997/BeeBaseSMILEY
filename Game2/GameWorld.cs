@@ -24,18 +24,30 @@ namespace Game2
     {
         Nektar nek = new Nektar();
 
-        public void Drone(Vector2 position)
+        //public void Nektar(object id)
+        //{
+
+
+
+        //}
+        //public object id;
+
+
+        //public void Enter(object id)
+        //{
+        //    this.id = id;
+        //}
+
+        bool isMovingToFlowerB;
+
+        public void Drone(Vector2 position, bool isMovingToFlowerB)
         {
             this.position = position;
-
+            this.isMovingToFlowerB = isMovingToFlowerB;
 
         }
-        public object id;
 
-        public void Enter(object id)
-        {
-            this.id = id;
-        }
+
         // Background sprite
         private Texture2D background;
 
@@ -133,14 +145,23 @@ namespace Game2
             // TODO: use this.Content to load your game content here
             gameObjects.Add(new Base());
 
-
-
-            gameObjects.Add(new Drone());
-
-
-            //if ((int)id == 2)
+            //if ((int)id == 1)
             //{
+            //    Debug.WriteLine("hej");
+            //}
 
+
+
+            gameObjects.Add(new Drone(new Vector2(0, 0)));
+            gameObjects.Add(new Drone(new Vector2(10, 0)));
+
+            //gameObjects.Add(new Drone(new Vector2(0, 0), true));
+
+
+
+
+            //foreach (int item in nek.idList)
+            //{
 
             //}
 
@@ -186,6 +207,8 @@ namespace Game2
                 flowerA_sprite = Content.Load<Texture2D>("flower_dead");
 
             }
+
+
 
 
             //MouseState state = Mouse.GetState();
