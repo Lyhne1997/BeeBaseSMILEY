@@ -105,7 +105,7 @@ namespace Game2
         {
             // TODO: Add your initialization logic here
             //nek.RunMe();
-            nek.StartShit();
+            nek.Start();
             nek.MiningStart();
             base.Initialize();
 

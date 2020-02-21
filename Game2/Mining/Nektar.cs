@@ -13,35 +13,18 @@ namespace Game2.Mining
 {
     public class Nektar : GameObject
     {
-        static Semaphore MySemaphore = new Semaphore(0, 3);     // Max 3
+        static Semaphore DroneSemaphore = new Semaphore(0, 3);
 
         public bool nektarmine = true;
 
-   
-     
-
-        //Nektar nek = new Nektar()
-        //{
-        //    hej = true;
-        //}
-        //public List<GameObject> gameObjects = new List<GameObject>();
-
-
-        // if leavingBees then drone should go to base 
-        // if waitingBees show sprites in front of the flower (not collecting)
-        // if enteringBees hide sprite since they are "in" the flower
-
-        // if enteringBees && postion = flower, then nektar++
-
-        //Drone drone = new Drone();
-
-
+        // Info about availability in mine
         public string nektarInfo = "";
         public string waitingBees = "";
         public string enteringBees = "";
         public string leavingBees = "";
-
+        // Amount of nektar mined
         public string minedNektar = "";
+        // Remaining nektar in mine
         public string remainingNektar = "";
 
         public bool beesIsEntered = true;
@@ -51,8 +34,7 @@ namespace Game2.Mining
         static Mutex m = new Mutex();
         private int state;
 
-        //private static Random random;
-        public void StartShit()
+        public void Start()
         {
             for (int i = 0; i < 2; i++)
             {
@@ -61,18 +43,13 @@ namespace Game2.Mining
                 t.Start();
             }
         }
-        /*Husk at count tælles ned hver gang en tråd får adgang. Så når den er 0
-        er der tre tråde inde og nye tråde må vente. Når en tråde forlader
-        tælles count op. Release(3) kan sørge for at alle kommer ud, dvs.
-        tømme natklubben. Release(), tæller blot en op sv.t. en enkelt tråd der
-        forlader */
+
 
         public void RunMe()
         {
             int remainingNektarInMine = 100;
             int nektar = 0;
-            /// nektarmine == true Should be changed since it stops the thread after the mine
-            /// has run out of resources
+
             while (nektarmine == true)
             {
 
@@ -89,27 +66,16 @@ namespace Game2.Mining
                 }
                 else
                 {
-
-
-                    //if bees enter == true then > mine
-
-                    //if (enteringBees == "Bob-bi(1) kommer ind")
                     if (isCollectingFlowerA == true)
                     {
                         remainingNektar = $"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}";
 
-                        // Debug
-                        Debug.WriteLine($"You mined 1 Nektar, remaining Nektar:{remainingNektarInMine}");
-
                         remainingNektarInMine--;
                         nektar++;
-                        minedNektar = $"You have mined a total of {nektar} Nektar";
-
-                        // Debug
-                        Debug.WriteLine($"You have mined a total of {nektar} Nektar");
+                        minedNektar = $"You have mined a total of {nektar} Nektar";           
                     }
 
-                    //}
+   
 
 
 
@@ -148,91 +114,48 @@ namespace Game2.Mining
 
             nektarInfo = "Release Bees(3).";
 
-            //Debug.WriteLine("Realse Bees(3).");
-            MySemaphore.Release(3); // Nektarmine is available
+            DroneSemaphore.Release(3); // Nektarmine is available
         }
-
-        
-        public List<int> idList = new List<int>();
 
         public void Enter(object id)
         {
-            //object id;
 
-
-            //IList<IDs> idList = new List<IList>() {
-            //    new IList(){ ID=1, StudentName="Bill"},
-            //    new IList(){ ID=2, StudentName="Steve"}
-            //}
 
             while (nektarmine == true)
             {
-      
+
                 if ((int)id == 1)
                 {
-                    idList.Add(1);
-
                     Drone.isWaitingToCollectFlowerA = true;
                     isCollectingFlowerA = false;
                     isMovingToBaseAFromFlowerA = false;
 
                     waitingBees = "Bob-bi 1 venter uden for";
 
-                    //drone.flowerAInput = true;
-                    //drone.flowerBInput = false;
-                    //drone.flowerCInput = false;
-
-                    //movesTowardFlower = true;
-
-                    //isMovingToFlowerA = false;
                 }
-                else
-                {
-                    idList.Remove(1);
-                }
+
                 if ((int)id == 2)
                 {
-                idList.Add(1);
                     waitingBees = "Claus 2 venter uden for";
                 }
-                else
-                {
-                    idList.Remove(1);
-                }
+
                 if ((int)id == 3)
                 {
-                idList.Add(1);
                     waitingBees = "TonnyBonde 3 venter uden for";
                 }
-                else
-                {
-                    idList.Remove(1);
-                }
+
                 if ((int)id == 4)
                 {
-                idList.Add(1);
                     waitingBees = "Karsten 4 venter uden for";
                 }
-                else
-                {
-                    idList.Remove(1);
-                }
+
                 if ((int)id == 5)
                 {
-                idList.Add(1);
                     waitingBees = "Lonni 5 venter uden for";
                 }
-                else
-                {
-                    idList.Remove(1);
-                }
-                // List Count
-                if (idList.Count <= 3)
-                {
-                    Debug.WriteLine("hej");
-                }
 
-                MySemaphore.WaitOne();  // Only three bees in here!
+
+                DroneSemaphore.WaitOne();  // Only three bees in here!
 
 
                 if ((int)id == 1)
@@ -287,14 +210,13 @@ namespace Game2.Mining
                 {
                     leavingBees = "Lonni(5) forlader";
                 }
-                Debug.WriteLine(idList.Count);
-                MySemaphore.Release();
+                DroneSemaphore.Release();
 
-             
+
             }
 
 
- 
+
 
             #region Debug
             //if ((int)id == 1)
