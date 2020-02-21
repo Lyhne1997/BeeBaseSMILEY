@@ -22,6 +22,10 @@ namespace Game2
         private Vector2 flowerA;
         private Vector2 flowerB;
         private Vector2 flowerC;
+        //
+        private Vector2 waitingFlowerA;
+        private Vector2 waitingFlowerB;
+        private Vector2 waitingFlowerC;
         //Bool så man kun skal give input én gang for at få bien til at bevæge sig mod dets target.
         private bool flowerAInput = false;
         private bool flowerBInput = false;
@@ -33,6 +37,10 @@ namespace Game2
         private bool isMovingToBaseAFromFlowerB;
         private bool isMovingToFlowerC;
         private bool isMovingToBaseAFromFlowerC;
+        //
+        private bool isWaitingToCollectFlowerA;
+        private bool isWaitingToCollectFlowerB;
+        private bool isWaitingToCollectFlowerC;
         //private bool isCollectingFlowerA;
         private bool isCollectingFlowerB;
         private bool isCollectingFlowerC;
@@ -53,6 +61,15 @@ namespace Game2
             //Position på Flower C.
             flowerC.X = 820;
             flowerC.Y = 55;
+            //
+            waitingFlowerA.X = 45;
+            waitingFlowerA.Y = 480;
+            //
+            waitingFlowerB.X = 800;
+            waitingFlowerB.Y = 600;
+            //
+            waitingFlowerC.X = 770;
+            waitingFlowerC.Y = 55;
             //Biernes hastighed.
             speed = 10f;
         }
@@ -60,9 +77,8 @@ namespace Game2
 
         public override void LoadContent(ContentManager content)
         {
-            //Loader vores sprite.
-            //sprite = content.Load<Texture2D>("bee1");
-
+        //Loader vores sprite.
+        //sprite = content.Load<Texture2D>("bee1");
             sprites = new Texture2D[3];
 
             for (int i = 0; i < sprites.Length; i++)
@@ -109,7 +125,14 @@ namespace Game2
             if (flowerAInput == true && flowerBInput == false && flowerCInput == false)
             {
 
-                if (isMovingToFlowerA == true)
+                if (isWaitingToCollectFlowerA == true)
+                {
+                    {
+                        distance.X = waitingFlowerA.X - this.position.X;
+                        distance.Y = waitingFlowerA.Y - this.position.Y;
+                    }
+                }
+                if(isCollectingFlowerA == true)
                 {
                     {
                         distance.X = flowerA.X - this.position.X;
@@ -125,7 +148,7 @@ namespace Game2
                 }
                 isWaitingForInput = false;
             }
-            ////Udregner afstanden fra bien til Flower "B" eller Basen afhængigt af hvilken den skal bevæge sig imod.
+            //Udregner afstanden fra bien til Flower "B" eller Basen afhængigt af hvilken den skal bevæge sig imod.
             if (flowerBInput == true && flowerAInput == false && flowerCInput == false)
             {
 
@@ -135,13 +158,13 @@ namespace Game2
                         distance.X = flowerB.X - this.position.X;
                         distance.Y = flowerB.Y - this.position.Y;
                     }
-                }
                 if (isMovingToBaseAFromFlowerB == true)
                 {
                     {
                         distance.X = baseA.X - this.position.X;
                         distance.Y = baseA.Y - this.position.Y;
                     }
+                }
                 }
                 isWaitingForInput = false;
             }
@@ -175,13 +198,24 @@ namespace Game2
             if (this.position.X <= baseA.X && this.position.Y <= baseA.Y)
             {
                 isMovingToBaseAFromFlowerA = false;
-                isMovingToFlowerA = true;
+                isMovingToFlowerA = false;
+                isWaitingToCollectFlowerA = true;
                 timer = 0;
             }
+            if (this.position.X >= waitingFlowerA.X && this.position.Y >= waitingFlowerA.Y)
+            {
+                isWaitingToCollectFlowerA = true;
+                if(timer >= 500)
+                {
+                    isWaitingToCollectFlowerA = false;
+                    isCollectingFlowerA = true;
+                }
+            }
+
             if (this.position.X >= flowerA.X && this.position.Y >= flowerA.Y)
             {
                 isCollectingFlowerA = true;
-                if (timer >= 500)
+                if (timer >= 1000)
                 {
                     isMovingToFlowerA = false;
                     isMovingToBaseAFromFlowerA = true;
@@ -230,11 +264,11 @@ namespace Game2
             //Bool så bien står stiller mens den venter på spillerens input.
             if (isWaitingForInput == false)
             {
-                //Bevæger bien baseret på direction og speed.
+            //Bevæger bien baseret på direction og speed.
                 position += direction * this.speed;
             }
             //Så biens står stille når den ikke får input.
-            isWaitingForInput = true;
+                isWaitingForInput = true;
         }
     }
 }
