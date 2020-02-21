@@ -152,17 +152,26 @@ namespace Game2
             if (flowerBInput == true && flowerAInput == false && flowerCInput == false)
             {
 
-                if (isMovingToFlowerB == true)
+                if (isWaitingToCollectFlowerB == true)
                 {
                     {
+                        {
+                        distance.X = waitingFlowerB.X - this.position.X;
+                        distance.Y = waitingFlowerB.Y - this.position.Y;
+                        }
+                    }
+                    if (isCollectingFlowerB == true)
+                    {
+                        {
                         distance.X = flowerB.X - this.position.X;
                         distance.Y = flowerB.Y - this.position.Y;
+                        }
                     }
                     if (isMovingToBaseAFromFlowerB == true)
                     {
-                        {
-                            distance.X = baseA.X - this.position.X;
-                            distance.Y = baseA.Y - this.position.Y;
+                        { 
+                        distance.X = baseA.X - this.position.X;
+                        distance.Y = baseA.Y - this.position.Y;
                         }
                     }
                 }
@@ -172,7 +181,14 @@ namespace Game2
             if (flowerCInput == true && flowerAInput == false && flowerBInput == false)
             {
 
-                if (isMovingToFlowerC == true)
+                if (isWaitingToCollectFlowerC == true)
+                {
+                    {
+                        distance.X = waitingFlowerC.X - this.position.X;
+                        distance.Y = waitingFlowerC.Y - this.position.Y;
+                    }
+                }
+                if (isCollectingFlowerC == true)
                 {
                     {
                         distance.X = flowerC.X - this.position.X;
@@ -228,13 +244,23 @@ namespace Game2
             if (this.position.X <= baseA.X || this.position.Y <= baseA.Y)
             {
                 isMovingToBaseAFromFlowerB = false;
-                isMovingToFlowerB = true;
+                isMovingToFlowerB = false;
+                isWaitingToCollectFlowerB = true;
                 timer = 0;
+            }
+            if (this.position.X >= waitingFlowerB.X && this.position.Y >= waitingFlowerB.Y)
+            {
+                isWaitingToCollectFlowerB = true;
+                if (timer >= 500)
+                {
+                    isWaitingToCollectFlowerB = false;
+                    isCollectingFlowerB = true;
+                }
             }
             if (this.position.X >= flowerB.X || this.position.Y >= flowerB.Y)
             {
                 isCollectingFlowerB = true;
-                if (timer >= 500)
+                if (timer >= 1000)
                 {
                     isMovingToFlowerB = false;
                     isMovingToBaseAFromFlowerB = true;
@@ -247,13 +273,23 @@ namespace Game2
             if (this.position.X <= baseA.X || this.position.Y <= baseA.Y)
             {
                 isMovingToBaseAFromFlowerC = false;
-                isMovingToFlowerC = true;
+                isMovingToFlowerC = false;
+                isWaitingToCollectFlowerC = true;
                 timer = 0;
+            }
+            if (this.position.X >= waitingFlowerC.X && this.position.Y >= waitingFlowerC.Y)
+            {
+                isWaitingToCollectFlowerC = true;
+                if (timer >= 500)
+                {
+                    isWaitingToCollectFlowerC = false;
+                    isCollectingFlowerC = true;
+                }
             }
             if (this.position.X >= flowerC.X || this.position.Y >= flowerC.Y)
             {
                 isCollectingFlowerC = true;
-                if (timer >= 500)
+                if (timer >= 1000)
                 {
                     isMovingToFlowerC = false;
                     isMovingToBaseAFromFlowerC = true;
