@@ -57,7 +57,7 @@ namespace Game2
         private Texture2D flowerC_sprite;
         private Texture2D flowerA_sprite_dead;
 
-        public bool flowerIsAlive = true;
+        public  bool flowerIsAlive = true;
 
         public List<GameObject> gameObjects = new List<GameObject>();
         public List<GameObject> gameObjectsToAdd = new List<GameObject>();

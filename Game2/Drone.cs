@@ -79,7 +79,6 @@ namespace Game2
             speed = 10f;
         }
 
-   
 
         //public static void Sleep(int millisecondsTimeout);
 
@@ -159,9 +158,9 @@ namespace Game2
             //Udregner afstanden fra bien til Flower "B" eller Basen afhængigt af hvilken den skal bevæge sig imod.
             if (flowerBInput == true && flowerAInput == false && flowerCInput == false)
             {
-
-                if (isWaitingToCollectFlowerB == true)
+                if (GameWorld.Instance.flowerIsAlive == true)
                 {
+                    if (isWaitingToCollectFlowerB == true)
                     {
                         {
                         distance.X = waitingFlowerB.X - this.position.X;
@@ -180,6 +179,30 @@ namespace Game2
                         { 
                         distance.X = baseA.X - this.position.X;
                         distance.Y = baseA.Y - this.position.Y;
+                        }
+                    }
+                }
+                if(GameWorld.Instance.flowerIsAlive == false)
+                {
+                    if (isWaitingToCollectFlowerA == true)
+                    {
+                        {
+                            distance.X = waitingFlowerA.X - this.position.X;
+                            distance.Y = waitingFlowerA.Y - this.position.Y;
+                        }
+                    }
+                    if (isCollectingFlowerA == true)
+                    {
+                        {
+                            distance.X = flowerA.X - this.position.X;
+                            distance.Y = flowerA.Y - this.position.Y;
+                        }
+                    }
+                    if (isMovingToBaseAFromFlowerA == true)
+                    {
+                        {
+                            distance.X = baseA.X - this.position.X;
+                            distance.Y = baseA.Y - this.position.Y;
                         }
                     }
                 }
@@ -297,7 +320,7 @@ namespace Game2
             if (this.position.X >= flowerC.X || this.position.Y >= flowerC.Y)
             {
                 isCollectingFlowerC = true;
-                if (timer >= 1000)
+                if (timer >= 600)
                 {
                     isMovingToFlowerC = false;
                     isMovingToBaseAFromFlowerC = true;

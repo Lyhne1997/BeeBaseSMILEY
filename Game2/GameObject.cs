@@ -20,6 +20,7 @@ namespace Game2
         //protected Vector2 flowerB;
         //protected Vector2 flowerC;
 
+
         protected static bool movesTowardFlower = false;
         protected static bool isMovingToFlowerA = false;
 
