@@ -77,7 +77,7 @@ namespace Game2.Mining
             {
 
 
-                if (m.WaitOne(500))
+                if (m.WaitOne(2000))
                 {
                     if (state == 5)
                     {

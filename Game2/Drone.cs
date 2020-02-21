@@ -19,7 +19,7 @@ namespace Game2
 
         //Vectorer til de forskellige assets.
         private Vector2 baseA;
-        private Vector2 flowerA;
+        public Vector2 flowerA;
         private Vector2 flowerB;
         private Vector2 flowerC;
         //
